@@ -1,24 +1,3 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
-[submodule "nvim/plugged/deoplete.nvim"]
-	path = nvim/plugged/deoplete.nvim
-	url = https://github.com/Shougo/deoplete.nvim
-[submodule "nvim/plugged/ctrlp.vim"]
-	path = nvim/plugged/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim
-[submodule "nvim/plugged/nerdtree"]
-	path = nvim/plugged/nerdtree
-	url = https://github.com/scrooloose/nerdtree
-[submodule "nvim/plugged/vim-nerdtree-tabs"]
-	path = nvim/plugged/vim-nerdtree-tabs
-	url = https://github.com/jistr/vim-nerdtree-tabs
-[submodule "nvim/plugged/gundo.vim"]
-	path = nvim/plugged/gundo.vim
-	url = https://github.com/sjl/gundo.vim
-[submodule "nvim/plugged/tagbar"]
-	path = nvim/plugged/tagbar
-	url = https://github.com/majutsushi/tagbar
-[submodule "nvim/plugged/gentoo-syntax"]
-	path = nvim/plugged/gentoo-syntax
-	url = https://github.com/gentoo/gentoo-syntax
