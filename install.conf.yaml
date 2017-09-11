@@ -8,6 +8,7 @@
 #    ~/dotfiles: ''
     ~/.config/nvim: nvim
     ~/.Xdefaults: Xdefaults 
+    ~/.config/awesome: awesome
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

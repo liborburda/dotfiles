@@ -66,6 +66,9 @@ set statusline+=[%l        " Current line
 set statusline+=/         " Separator
 set statusline+=%L]        " Total lines
 
+let g:python_host_prog  = '/usr/bin/python2'
+let g:python3_host_prog = '/usr/bin/python3'
+
 """""""""""""""""""""""
 " dont set <leader> to ",", otherwise ,b mapped to CtrlP will be delayed due to
 " mapping <leader>bug
