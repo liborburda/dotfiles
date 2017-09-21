@@ -9,7 +9,10 @@
     ~/.config/nvim: nvim
     ~/.Xdefaults: Xdefaults 
     ~/.config/awesome: awesome
+    ~/.vimrc: nvim/init.vim
+    ~/.vim: nvim
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
   - [nvim +PlugInstall +all, Install neovim plugins]
+  - [vim +PlugInstall +all, Install vim plugins]

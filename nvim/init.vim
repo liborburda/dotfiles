@@ -76,7 +76,12 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
+endif
+
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -86,8 +91,18 @@ Plug 'gentoo/gentoo-syntax'
 
 call plug#end()
 
-" enable deoplete on startup
-call deoplete#enable()
+if has('nvim')
+    " enable deoplete on startup
+    call deoplete#enable()
+else
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 1
+endif
+
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
 
