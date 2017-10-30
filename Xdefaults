@@ -8,7 +8,7 @@ Xft.rgba:       none
 URxvt*termName: rxvt-unicode-256color
 URxvt*modifier: meta
 
-URxvt*font:				xft:xos4 Terminus:size=13:style=regular
+URxvt*font:             xft:xos4 Terminus:size=13:style=regular
 URxvt*boldFont:         xft:xos4 Terminus:size=13:style=bold
 URxvt*italicFont:       xft:xos4 Terminus:size=13:style=italic
 URxvt*bolditalicFont:   xft:xos4 Terminus:size=13
