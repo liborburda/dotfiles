@@ -15,7 +15,7 @@ require("awful.hotkeys_popup.keys.vim")
 -- Widget and layout library
 local wibox = require("wibox")
 local vicious = require("vicious")
-local xrandr = require("xrandr")
+--local xrandr = require("xrandr")
 
 local sharedtags = require("sharedtags")
 
@@ -483,7 +483,7 @@ globalkeys = gears.table.join(
                                              awful.util.spawn("xset r rate 300 25"); 
                                     end,
 		      {description="Set US keyboard layout", group="awesome"}),
-    awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap cz");
+    awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap -layout cz -variant qwerty");
                                              awful.util.spawn("xset r rate 300 25"); 
                                     end,
 		      {description="Set CZ keyboard layout", group="awesome"}),
@@ -674,7 +674,7 @@ awful.rules.rules = {
     { rule = { class = "Qalculate-gtk" },
       properties = { floating = true } },
     { rule = { class = "Deluge" },
-      properties = { screen = 1, tag = " 8 " } },
+      properties = { screen = 1, tag = " 9 " } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
@@ -749,6 +749,14 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+-- temporary bugfix (https://github.com/awesomeWM/awesome/issues/1692)
+--client.connect_signal("request::geometry", function(c)
+--    if client.focus then
+--        client.focus.ignore_border_width = false
+--        client.focus.border_width = beautiful.border_width
+--    end
+--end)
 
 -- Remove border when client is maximized
 --client.connect_signal("property::maximized", function(c) 

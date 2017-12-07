@@ -78,6 +78,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'neomake/neomake'
 else
     Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
 endif
@@ -88,12 +89,21 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'sjl/gundo.vim'
 Plug 'majutsushi/tagbar'
 Plug 'gentoo/gentoo-syntax'
+Plug 'chr4/nginx.vim'
+Plug 'vim-scripts/dhcpd.vim'
 
 call plug#end()
 
 if has('nvim')
     " enable deoplete on startup
     call deoplete#enable()
+
+    " When writing a buffer.
+    call neomake#configure#automake('w')
+    " When writing a buffer, and on normal mode changes (after 750ms).
+    call neomake#configure#automake('nw', 750)
+    " When reading a buffer (after 1s), and when writing.
+    call neomake#configure#automake('rw', 1000)
 else
     " Use neocomplete.
     let g:neocomplete#enable_at_startup = 1
