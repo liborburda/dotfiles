@@ -483,10 +483,14 @@ globalkeys = gears.table.join(
                                              awful.util.spawn("xset r rate 300 25"); 
                                     end,
 		      {description="Set US keyboard layout", group="awesome"}),
-    awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap -layout cz -variant qwerty");
+    awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap cz");
                                              awful.util.spawn("xset r rate 300 25"); 
                                     end,
 		      {description="Set CZ keyboard layout", group="awesome"}),
+    -- awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap -layout cz -variant qwerty");
+    --                                          awful.util.spawn("xset r rate 300 25"); 
+    --                                 end,
+	-- 	      {description="Set CZ keyboard layout", group="awesome"}),
     awful.key({ modkey, }, "F12", function () awful.util.spawn("i3lock -n -u -i /home/libor/.i3/bg.png -t") end),
 
 

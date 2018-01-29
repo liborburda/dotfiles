@@ -5,7 +5,7 @@
 - clean: ['~']
 
 - link:
-    ~/dotfiles: ''
+    #~/dotfiles: ''
     ~/.config/nvim: nvim
     ~/.Xdefaults: Xdefaults 
     ~/.config/awesome: awesome
