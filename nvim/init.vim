@@ -45,7 +45,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 
 set mouse=a
-set clipboard+=unnamedplus
+set clipboard=unnamed
 
 set cursorline
 " set cursorcolumn
