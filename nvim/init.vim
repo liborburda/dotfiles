@@ -44,7 +44,7 @@ set undolevels=200
 set encoding=utf-8
 set fileencoding=utf-8
 
-set mouse=a
+set mouse=n
 set clipboard=unnamed
 
 set cursorline
