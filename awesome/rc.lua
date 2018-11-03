@@ -196,17 +196,29 @@ vicious.register(wiredicon, vicious.widgets.net, function(widget, args)
     end
 end, 1)
   
---Wireless network widget
-wirelesstext = wibox.widget.textbox()
-wirelessicon = wibox.widget.imagebox()
-wirelessicon:set_image(beautiful.icon_net_high)
-vicious.register(wirelessicon, vicious.widgets.wifi, function(widget, args)
+-- wlan0 wireless network widget
+wlan0text = wibox.widget.textbox()
+wlan0icon = wibox.widget.imagebox()
+wlan0icon:set_image(beautiful.icon_net_high)
+vicious.register(wlan0icon, vicious.widgets.wifi, function(widget, args)
     if args["{ssid}"] ~= "N/A" then
-        wirelesstext:set_text(args["{ssid}"])
+        wlan0text:set_text(args["{ssid}"])
     else
-        wirelesstext:set_text("down")
+        wlan0text:set_text("down")
     end
 end, 1, "wlan0")
+--
+-- wlan1 wireless network widget
+wlan1text = wibox.widget.textbox()
+wlan1icon = wibox.widget.imagebox()
+wlan1icon:set_image(beautiful.icon_net_high)
+vicious.register(wlan1icon, vicious.widgets.wifi, function(widget, args)
+    if args["{ssid}"] ~= "N/A" then
+        wlan1text:set_text(args["{ssid}"])
+    else
+        wlan1text:set_text("down")
+    end
+end, 1, "wlan1")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -222,8 +234,8 @@ local taglist_buttons = gears.table.join(
                                                   client.focus:toggle_tag(t)
                                               end
                                           end),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                    awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+                    awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
                 )
 
 local tasklist_buttons = gears.table.join(
@@ -338,9 +350,13 @@ awful.screen.connect_for_each_screen(function(s)
         sprspace,
 	    wiredtext,
 	    spr,
-	    wirelessicon,
+	    wlan0icon,
         sprspace,
-	    wirelesstext,
+	    wlan0text,
+	    spr,
+	    wlan1icon,
+        sprspace,
+	    wlan1text,
 	    spr,
         clockicon,
         sprspace,
@@ -678,7 +694,7 @@ awful.rules.rules = {
     { rule = { class = "Qalculate-gtk" },
       properties = { floating = true } },
     { rule = { class = "Deluge" },
-      properties = { screen = 1, tag = " 9 " } },
+      properties = { tag = tags[" 9 "] } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
