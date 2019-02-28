@@ -209,16 +209,16 @@ vicious.register(wlan0icon, vicious.widgets.wifi, function(widget, args)
 end, 1, "wlan0")
 --
 -- wlan1 wireless network widget
-wlan1text = wibox.widget.textbox()
-wlan1icon = wibox.widget.imagebox()
-wlan1icon:set_image(beautiful.icon_net_high)
-vicious.register(wlan1icon, vicious.widgets.wifi, function(widget, args)
-    if args["{ssid}"] ~= "N/A" then
-        wlan1text:set_text(args["{ssid}"])
-    else
-        wlan1text:set_text("down")
-    end
-end, 1, "wlan1")
+-- wlan1text = wibox.widget.textbox()
+-- wlan1icon = wibox.widget.imagebox()
+-- wlan1icon:set_image(beautiful.icon_net_high)
+-- vicious.register(wlan1icon, vicious.widgets.wifi, function(widget, args)
+--     if args["{ssid}"] ~= "N/A" then
+--         wlan1text:set_text(args["{ssid}"])
+--     else
+--         wlan1text:set_text("down")
+--     end
+-- end, 1, "wlan1")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -354,10 +354,10 @@ awful.screen.connect_for_each_screen(function(s)
         sprspace,
 	    wlan0text,
 	    spr,
-	    wlan1icon,
-        sprspace,
-	    wlan1text,
-	    spr,
+	    -- wlan1icon,
+        -- sprspace,
+	    -- wlan1text,
+	    -- spr,
         clockicon,
         sprspace,
         clocktext,
@@ -482,14 +482,14 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86AudioMute",        function () awful.util.spawn("amixer set Master toggle", false ) end),
 
     -- MPD control
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc toggle") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("mpc stop") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc next") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("mpc prev") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc -h /var/lib/mpd/socket toggle") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("mpc -h /var/lib/mpd/socket stop") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc -h /var/lib/mpd/socket next") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("mpc -h /var/lib/mpd/socket prev") end),
 
-    awful.key({ modkey, }, "F8",  function () awful.util.spawn("mpc prev") end),
-    awful.key({ modkey, }, "F9",  function () awful.util.spawn("mpc toggle") end),
-    awful.key({ modkey, }, "F10", function () awful.util.spawn("mpc next") end),
+    awful.key({ modkey, }, "F8",  function () awful.util.spawn("mpc -h /var/lib/mpd/socket prev") end),
+    awful.key({ modkey, }, "F9",  function () awful.util.spawn("mpc -h /var/lib/mpd/socket toggle") end),
+    awful.key({ modkey, }, "F10", function () awful.util.spawn("mpc -h /var/lib/mpd/socket next") end),
 
     -- Calculator
     awful.key({ }, "XF86Calculator", function () awful.util.spawn("qalculate-gtk") end),
