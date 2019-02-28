@@ -114,8 +114,13 @@ done
 # Try to keep environment pollution down, EPA loves us.
 unset use_color sh
 
+mt() {
+    mosh $1 -- bash -c 'if [ -x "$(command -v tmux)" ]; then tmux a -t 0 || tmux; else bash; fi'
+}
+
 alias mnt='udisksctl mount -b'
 alias umnt='udisksctl unmount -b'
 alias cal='cal -y -m -w'
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
+
