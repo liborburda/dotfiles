@@ -124,6 +124,7 @@ set completeopt-=preview
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 autocmd FileType yaml set autoindent tabstop=2 shiftwidth=2 expandtab
+autocmd FileType yml set autoindent tabstop=2 shiftwidth=2 expandtab
 
 colorscheme base16-railscasts
 set background=dark
