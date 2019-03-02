@@ -68,58 +68,24 @@ set statusline+=%L]        " Total lines
 
 set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
-"let g:python_host_prog  = '/usr/bin/python2'
-"let g:python3_host_prog = '/usr/bin/python3'
-
-"""""""""""""""""""""""
-" dont set <leader> to ",", otherwise ,b mapped to CtrlP will be delayed due to
-" mapping <leader>bug
-"""""""""""""""""""""""
-
-call plug#begin('~/.config/nvim/plugged')
-
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'neomake/neomake'
-else
-    Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
-endif
-
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'sjl/gundo.vim'
-Plug 'majutsushi/tagbar'
-Plug 'gentoo/gentoo-syntax'
-Plug 'chr4/nginx.vim'
-Plug 'vim-scripts/dhcpd.vim'
-
+call plug#begin()
+    Plug 'vim-scripts/L9'
+    Plug 'othree/vim-autocomplpop'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'sjl/gundo.vim'
+    Plug 'majutsushi/tagbar'
+    Plug 'gentoo/gentoo-syntax'
+    Plug 'chr4/nginx.vim'
+    Plug 'vim-scripts/dhcpd.vim'
 call plug#end()
-
-if has('nvim')
-    " enable deoplete on startup
-    call deoplete#enable()
-
-    " When writing a buffer.
-    call neomake#configure#automake('w')
-    " When writing a buffer, and on normal mode changes (after 750ms).
-    call neomake#configure#automake('nw', 750)
-    " When reading a buffer (after 1s), and when writing.
-    call neomake#configure#automake('rw', 1000)
-else
-    " Use neocomplete.
-    let g:neocomplete#enable_at_startup = 1
-    " Use smartcase.
-    let g:neocomplete#enable_smart_case = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 1
-endif
 
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
 
-" Disable showing preview buffer
-set completeopt-=preview
+let g:acp_completeoptPreview = 1
+let g:acp_ignorecaseOption = 1
 
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
