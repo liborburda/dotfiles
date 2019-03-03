@@ -93,9 +93,12 @@ set complete+=t
 set completeopt+=menu
 set completeopt+=menuone
 set completeopt-=preview
-set completeopt+=noselect
 set completeopt+=longest
-set completeopt+=noinsert
+
+if has('patch-7.4-775')
+    set completeopt+=noinsert
+    set completeopt+=noselect
+endif
 
 call plug#begin('./vim/plugged')
 
