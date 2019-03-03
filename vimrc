@@ -78,13 +78,17 @@ set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
 call plug#begin('~/.config/nvim/plugged')
 
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'neomake/neomake'
-else
-    Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
-endif
+"if has('nvim')
+"    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"    Plug 'neomake/neomake'
+"else
+"    Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
+"endif
 
+Plug 'lifepillar/vim-mucomplete'
+"Plug 'vim-scripts/L9'
+"Plug 'othree/vim-autocomplpop'
+"Plug 'Shougo/neocomplete.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -96,30 +100,39 @@ Plug 'vim-scripts/dhcpd.vim'
 
 call plug#end()
 
-if has('nvim')
-    " enable deoplete on startup
-    call deoplete#enable()
-
-    " When writing a buffer.
-    call neomake#configure#automake('w')
-    " When writing a buffer, and on normal mode changes (after 750ms).
-    call neomake#configure#automake('nw', 750)
-    " When reading a buffer (after 1s), and when writing.
-    call neomake#configure#automake('rw', 1000)
-else
-    " Use neocomplete.
-    let g:neocomplete#enable_at_startup = 1
-    " Use smartcase.
-    let g:neocomplete#enable_smart_case = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 1
-endif
-
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
 
+set shortmess+=c
+set belloff+=ctrlg
+
 " Disable showing preview buffer
-set completeopt-=preview
+set completeopt+=menu
+set completeopt+=menuone
+set completeopt+=preview
+set completeopt+=noselect
+set completeopt+=longest
+set completeopt+=noinsert
+
+set complete=.
+set complete+=w
+set complete+=b
+set complete+=u
+set complete+=U
+set complete+=t
+
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#no_mappings = 1
+let g:mucomplete#always_use_completeopt = 1
+let g:mucomplete#force_manual = 0
+let g:mucomplete#chains = {}
+let g:mucomplete#chains = { 'default': ['omni', 'c-n', 'keyn', 'uspl', 'path'] }
+
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
@@ -165,9 +178,9 @@ map <F4> :GundoToggle<CR>
 map <F5> :TagbarToggle<CR>
 
 " CtrlP config mapping
-nnoremap ,f :CtrlP<CR>
-nnoremap ,b :CtrlPBuffer<CR>
-nnoremap ,t :CtrlPTag<CR>
+nnoremap <leader>f :CtrlP<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>t :CtrlPTag<CR>
 
 noremap j gj
 noremap k gk

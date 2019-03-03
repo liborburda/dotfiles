@@ -6,11 +6,11 @@
 
 - link:
     #~/dotfiles: ''
-    ~/.config/nvim: nvim
+    #~/.config/nvim: nvim
     ~/.Xdefaults: Xdefaults 
     ~/.config/awesome: awesome
-    ~/.vimrc: nvim/init.vim
-    ~/.vim: nvim
+    ~/.vimrc: vimrc
+    ~/.vim: vim
     ~/.bashrc: bashrc
     ~/.tmux.conf: tmux.conf
 
