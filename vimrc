@@ -102,10 +102,8 @@ endif
 
 call plug#begin('./vim/plugged')
 
-    Plug 'lifepillar/vim-mucomplete'
-    "Plug 'vim-scripts/L9'
-    "Plug 'othree/vim-autocomplpop'
-    "Plug 'Shougo/neocomplete.vim'
+    Plug 'vim-scripts/L9'
+    Plug 'othree/vim-autocomplpop'
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
@@ -120,12 +118,9 @@ call plug#end()
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
 
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#no_mappings = 1
-let g:mucomplete#always_use_completeopt = 1
-let g:mucomplete#force_manual = 0
-let g:mucomplete#chains = {}
-let g:mucomplete#chains = { 'default': ['path', 'omni', 'keyn', 'uspl', 'path', 'c-n'] }
+let g:acp_enableAtStartup = 1
+let g:acp_ignorecaseOption = 1
+let g:AutoComplPopDontSelectFirst = 1
 
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
