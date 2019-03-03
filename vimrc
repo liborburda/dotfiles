@@ -68,43 +68,26 @@ set statusline+=%L]        " Total lines
 
 set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
-"let g:python_host_prog  = '/usr/bin/python2'
-"let g:python3_host_prog = '/usr/bin/python3'
-
 """""""""""""""""""""""
 " dont set <leader> to ",", otherwise ,b mapped to CtrlP will be delayed due to
 " mapping <leader>bug
 """""""""""""""""""""""
+" Completion settings
 
-call plug#begin('~/.config/nvim/plugged')
+" µcomplete
+if has('patch-7.4.314')
+  set shortmess+=c
+endif
+if has('patch-7.4.793')
+  set belloff+=ctrlg
+endif
 
-"if has('nvim')
-"    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"    Plug 'neomake/neomake'
-"else
-"    Plug 'Shougo/neocomplete.vim', { 'do': ':UpdateRemotePlugins' }
-"endif
-
-Plug 'lifepillar/vim-mucomplete'
-"Plug 'vim-scripts/L9'
-"Plug 'othree/vim-autocomplpop'
-"Plug 'Shougo/neocomplete.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'sjl/gundo.vim'
-Plug 'majutsushi/tagbar'
-Plug 'gentoo/gentoo-syntax'
-Plug 'chr4/nginx.vim'
-Plug 'vim-scripts/dhcpd.vim'
-
-call plug#end()
-
-" enable using regexp in ctrlp
-let g:ctrlp_regexp=1
-
-set shortmess+=c
-set belloff+=ctrlg
+set complete=.
+set complete+=w
+set complete+=b
+set complete+=u
+set complete+=U
+set complete+=t
 
 " Disable showing preview buffer
 set completeopt+=menu
@@ -114,29 +97,37 @@ set completeopt+=noselect
 set completeopt+=longest
 set completeopt+=noinsert
 
-set complete=.
-set complete+=w
-set complete+=b
-set complete+=u
-set complete+=U
-set complete+=t
+call plug#begin('~/.config/nvim/plugged')
+
+    Plug 'lifepillar/vim-mucomplete'
+    "Plug 'vim-scripts/L9'
+    "Plug 'othree/vim-autocomplpop'
+    "Plug 'Shougo/neocomplete.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'sjl/gundo.vim'
+    Plug 'majutsushi/tagbar'
+    Plug 'gentoo/gentoo-syntax'
+    Plug 'chr4/nginx.vim'
+    Plug 'vim-scripts/dhcpd.vim'
+
+call plug#end()
+
+" enable using regexp in ctrlp
+let g:ctrlp_regexp=1
 
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#no_mappings = 1
 let g:mucomplete#always_use_completeopt = 1
 let g:mucomplete#force_manual = 0
 let g:mucomplete#chains = {}
-let g:mucomplete#chains = { 'default': ['omni', 'c-n', 'keyn', 'uspl', 'path'] }
-
-"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+let g:mucomplete#chains = { 'default': ['path', 'omni', 'keyn', 'uspl', 'path', 'c-n'] }
 
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 autocmd FileType yaml set autoindent tabstop=2 shiftwidth=2 expandtab
+autocmd FileType yml set autoindent tabstop=2 shiftwidth=2 expandtab
 
 colorscheme base16-railscasts
 set background=dark
