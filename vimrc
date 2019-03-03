@@ -97,7 +97,7 @@ set completeopt+=noselect
 set completeopt+=longest
 set completeopt+=noinsert
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('./vim/plugged')
 
     Plug 'lifepillar/vim-mucomplete'
     "Plug 'vim-scripts/L9'
