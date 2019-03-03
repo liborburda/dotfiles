@@ -92,7 +92,7 @@ set complete+=t
 " Disable showing preview buffer
 set completeopt+=menu
 set completeopt+=menuone
-set completeopt+=preview
+set completeopt-=preview
 set completeopt+=noselect
 set completeopt+=longest
 set completeopt+=noinsert
