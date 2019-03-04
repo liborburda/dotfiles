@@ -167,9 +167,9 @@ map <F4> :GundoToggle<CR>
 map <F5> :TagbarToggle<CR>
 
 " CtrlP config mapping
-nnoremap <leader>f :CtrlP<CR>
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>t :CtrlPTag<CR>
+nnoremap ,f :CtrlP<CR>
+nnoremap ,b :CtrlPBuffer<CR>
+nnoremap ,t :CtrlPTag<CR>
 
 noremap j gj
 noremap k gk
