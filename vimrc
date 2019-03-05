@@ -100,7 +100,7 @@ if has('patch-7.4-775')
     set completeopt+=noselect
 endif
 
-call plug#begin('./vim/plugged')
+call plug#begin('~/.vim/plugged')
 
     Plug 'vim-scripts/L9'
     Plug 'othree/vim-autocomplpop'
