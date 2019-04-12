@@ -115,7 +115,7 @@ done
 unset use_color sh
 
 mt() {
-    mosh $1 -- bash -c 'if [ -x "$(command -v tmux)" ]; then tmux a -t 0 || tmux; else bash; fi'
+    mosh $1 -- tmux new -ADs 0
 }
 
 alias mnt='udisksctl mount -b'
