@@ -110,7 +110,7 @@ mysystemmenu = awful.menu( {
        { "-------------",},
        { "Logout", function() awesome.quit() end}
     },
-    theme = {width = 150}    
+    theme = {width = 150}
 })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
@@ -160,27 +160,51 @@ vicious.register(volumewidget, vicious.widgets.volume, function(widget, args)
     else
         return args[1] .. "%"
     end
-end, 1, "Master")
+end, 60, "Master")
+
 volumewidget:buttons(
     awful.util.table.join(
-        awful.button({ }, 4, function () awful.util.spawn("amixer set Master 3%+") end),
-        awful.button({ }, 5, function () awful.util.spawn("amixer set Master 3%-") end)
+        awful.button({ }, 4, function ()
+            awful.util.spawn("amixer set Master 3%+")
+            vicious.force({ volumewidget, })
+        end),
+        awful.button({ }, 5, function ()
+            awful.util.spawn("amixer set Master 3%-")
+            vicious.force({ volumewidget, })
+        end)
     )
 )
 
 -- Battery widget
 -- shows battery status
 -- shows warning when battery status is below 15
+local last_battery_check = os.time()
 batteryicon = wibox.widget.imagebox()
 batterywidget = wibox.widget.textbox()
-vicious.register(batterywidget, vicious.widgets.bat, function(widget, args) 
+vicious.register(batterywidget, vicious.widgets.bat, function(widget, args)
     if (args[1] == "+" or args[1] == "⌁" or args[1] == "↯") then
         batteryicon:set_image(beautiful.icon_ac)
     else
         batteryicon:set_image(beautiful.icon_battery_full)
+        if (args[2] >= 0 and args[2] < 15) then
+            if os.difftime(os.time(), last_battery_check) > 300 then
+                -- if 5 minutes have elapsed since the last warning
+                last_battery_check = time()
+                naughty.notify{
+                    text = "Huston, we have a problem",
+                    title = "Battery is dying",
+                    timeout = 5,
+                    position = "top_right",
+                    bg = "#F06060",
+                    fg = "#EEE9EF",
+                    width = 300,
+                }
+
+            end --end if
+        end --end if
     end --end if
 
-    return args[2] .. "%" -- returns charging and percent status  
+    return args[2] .. "%" -- returns charging and percent status
 end --end function
 , 10, "BAT1")
 
@@ -195,7 +219,7 @@ vicious.register(wiredicon, vicious.widgets.net, function(widget, args)
         wiredtext:set_text("down")
     end
 end, 1)
-  
+
 -- wlan0 wireless network widget
 wlan0text = wibox.widget.textbox()
 wlan0icon = wibox.widget.imagebox()
@@ -274,7 +298,7 @@ local function set_wallpaper(s)
         gears.wallpaper.maximized(wallpaper, s, true)
     end
 end
-   
+
 -- Sharedtags, similar behavior like in Spectrwm
 -- requires external module 'sharedtags'
 local tags = sharedtags({
@@ -476,10 +500,20 @@ globalkeys = gears.table.join(
     -- Menubar
     -- awful.key({ modkey }, "p", function() menubar.show() end,
     --           {description = "show the menubar", group = "launcher"})
+
     -- Volume Control
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer set Master 3%+", false ) end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer set Master 3%-", false ) end),
-    awful.key({ }, "XF86AudioMute",        function () awful.util.spawn("amixer set Master toggle", false ) end),
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+        awful.util.spawn("amixer set Master 3%+", false )
+        vicious.force({ volumewidget, })
+    end),
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+        awful.util.spawn("amixer set Master 3%-", false )
+        vicious.force({ volumewidget, })
+    end),
+    awful.key({ }, "XF86AudioMute", function ()
+        awful.util.spawn("amixer set Master toggle", false )
+        vicious.force({ volumewidget, })
+    end),
 
     -- MPD control
     awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc -h /var/lib/mpd/socket toggle") end),
@@ -493,18 +527,18 @@ globalkeys = gears.table.join(
 
     -- Calculator
     awful.key({ }, "XF86Calculator", function () awful.util.spawn("qalculate-gtk") end),
-    
+
     -- Keyboard switch
-    awful.key({ modkey, }, "F5", function () awful.util.spawn("setxkbmap us"); 
-                                             awful.util.spawn("xset r rate 300 25"); 
+    awful.key({ modkey, }, "F5", function () awful.util.spawn("setxkbmap us");
+                                             awful.util.spawn("xset r rate 300 25");
                                     end,
 		      {description="Set US keyboard layout", group="awesome"}),
     awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap cz");
-                                             awful.util.spawn("xset r rate 300 25"); 
+                                             awful.util.spawn("xset r rate 300 25");
                                     end,
 		      {description="Set CZ keyboard layout", group="awesome"}),
     -- awful.key({ modkey, }, "F6", function () awful.util.spawn("setxkbmap -layout cz -variant qwerty");
-    --                                          awful.util.spawn("xset r rate 300 25"); 
+    --                                          awful.util.spawn("xset r rate 300 25");
     --                                 end,
 	-- 	      {description="Set CZ keyboard layout", group="awesome"}),
     awful.key({ modkey, }, "F12", function () awful.util.spawn("i3lock -n -u -i /home/libor/.i3/bg.png -t") end),
@@ -689,11 +723,11 @@ awful.rules.rules = {
       properties = { maximized_vertical = true, maximized_horizontal = true } },
     { rule = { class = "Google-chrome" },
       properties = { border_width = 0 } },
-    { rule = { class = "Pale moon" },
+    { rule = { class = "Vivaldi-stable" },
       properties = { border_width = 0 } },
     { rule = { class = "Qalculate-gtk" },
       properties = { floating = true } },
-    { rule = { class = "Deluge" },
+    { rule = { class = "qBittorrent" },
       properties = { tag = tags[" 9 "] } },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -779,7 +813,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --end)
 
 -- Remove border when client is maximized
---client.connect_signal("property::maximized", function(c) 
+--client.connect_signal("property::maximized", function(c)
 --    c.border_width = c.maximized and 0 or beautiful.border_width
 --end)
 -- }}}
