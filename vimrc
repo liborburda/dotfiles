@@ -112,6 +112,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'gentoo/gentoo-syntax'
     Plug 'chr4/nginx.vim'
     Plug 'vim-scripts/dhcpd.vim'
+    Plug 'dhruvasagar/vim-table-mode'
 
 call plug#end()
 
