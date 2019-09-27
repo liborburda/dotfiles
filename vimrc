@@ -9,6 +9,7 @@ set showmatch
 
 set title
 set nocompatible 
+set showmode
 
 set expandtab
 set tabstop=4
@@ -72,16 +73,35 @@ set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 " dont set <leader> to ",", otherwise ,b mapped to CtrlP will be delayed due to
 " mapping <leader>bug
 """""""""""""""""""""""
-" Completion settings
 
-" µcomplete
-if has('patch-7.4.314')
-  set shortmess+=c
-endif
-if has('patch-7.4.793')
-  set belloff+=ctrlg
-endif
+call plug#begin('~/.vim/plugged')
 
+"    Plug 'vim-scripts/AutoComplPop'
+"    Plug 'vim-scripts/L9'
+"    Plug 'othree/vim-autocomplpop'
+    Plug 'lifepillar/vim-mucomplete'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'scrooloose/nerdtree'
+    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'sjl/gundo.vim'
+    Plug 'majutsushi/tagbar'
+    Plug 'chr4/nginx.vim'
+    Plug 'vim-scripts/dhcpd.vim'
+    Plug 'dhruvasagar/vim-table-mode'
+
+call plug#end()
+
+" enable using regexp in ctrlp
+let g:ctrlp_regexp=1
+
+" AutoComplPop
+"let g:acp_enableAtStartup = 1
+"let g:acp_ignorecaseOption = 1
+"let g:AutoComplPopDontSelectFirst = 1
+
+""""""""""""""
+" mucomplete
+""""""""""""""
 set complete=.
 set complete+=w
 set complete+=b
@@ -99,29 +119,20 @@ if has('patch-7.4-775')
     set completeopt+=noinsert
     set completeopt+=noselect
 endif
+let g:mucomplete#enable_auto_at_startup = 1
+imap <c-j> <plug>(MUcompleteFwd)
+imap <c-k> <plug>(MUcompleteBwd)
+if has('patch-7.4.314')
+  set shortmess+=c  " Shut off completion messages
+endif
+if has('patch-7.4.793')
+  set belloff+=ctrlg    " If Vim beeps during completion
+endif
 
-call plug#begin('~/.vim/plugged')
-
-    Plug 'vim-scripts/L9'
-    Plug 'othree/vim-autocomplpop'
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'scrooloose/nerdtree'
-    Plug 'jistr/vim-nerdtree-tabs'
-    Plug 'sjl/gundo.vim'
-    Plug 'majutsushi/tagbar'
-    Plug 'gentoo/gentoo-syntax'
-    Plug 'chr4/nginx.vim'
-    Plug 'vim-scripts/dhcpd.vim'
-    Plug 'dhruvasagar/vim-table-mode'
-
-call plug#end()
-
-" enable using regexp in ctrlp
-let g:ctrlp_regexp=1
-
-let g:acp_enableAtStartup = 1
-let g:acp_ignorecaseOption = 1
-let g:AutoComplPopDontSelectFirst = 1
+let g:mucomplete#chains = {
+      \ 'default': ['c-n', 'omni', 'uspl', 'path', 'tags', 'ulti']
+\ }
+" end mucomplete
 
 " <Tab> settings for Makefiles
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
@@ -146,7 +157,7 @@ highlight Visual             ctermbg=3       ctermfg=0
 highlight Pmenu              ctermbg=240     ctermfg=12
 highlight PmenuSel           ctermbg=3       ctermfg=1
 highlight SpellBad           ctermbg=0       ctermfg=1
-" Tab bar.
+" Tab bar
 highlight TabLine            ctermbg=236     ctermfg=240 
 highlight TabLineSel         ctermbg=237                
 highlight TabLineFill        ctermbg=236                
