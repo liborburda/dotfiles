@@ -26,6 +26,7 @@ shopt -s no_empty_cmd_completion
 
 # Enable history appending instead of overwriting when exiting.  #139609
 shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # Save each command to the history file as it's executed.  #517342
 # This does mean sessions get interleaved when reading later on, but this
