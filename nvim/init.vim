@@ -70,14 +70,14 @@ set statusline+=%L]        " Total lines
 set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
 " Disable cursor styling in neovim
-set guicursor=
+set guicursor=a:blinkon0
 
 """""""""""""""""""""""
 " dont set <leader> to ",", otherwise ,b mapped to CtrlP will be delayed due to
 " mapping <leader>bug
 """""""""""""""""""""""
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'scrooloose/nerdtree'
