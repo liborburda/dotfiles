@@ -157,6 +157,7 @@ endif
 let g:asyncomplete_auto_popup = 1
 "let g:asyncomplete_auto_completeopt = 1
 let g:lsp_signature_help_enabled = 0
+let g:lsp_virtual_text_enabled = 0
 "let g:asyncomplete_force_refresh_on_context_changed = 1
 "let g:asyncomplete_log_file = '/home/libor/.vim/asyncomplete.log'
 "let g:lsp_log_file = expand('~/.vim/vim-lsp.log')
