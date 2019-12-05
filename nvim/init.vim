@@ -87,14 +87,14 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
 
+    Plug 'ncm2/ncm2'
+    Plug 'roxma/nvim-yarp'
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/vim-lsp'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"    Plug 'prabirshrestha/asyncomplete-tags.vim'
-"    Plug 'ludovicchabant/vim-gutentags'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'ncm2/ncm2-vim-lsp'
+    Plug 'ncm2/float-preview.nvim'
 
 call plug#end()
 
@@ -144,24 +144,26 @@ nnoremap ,P "+P
 vnoremap ,p "+p
 vnoremap ,P "+P
 
-""""""""""""""""""""""""""
-" asyncomplete + vim-lsp "
-"                        "
-""""""""""""""""""""""""""
-"" Disable showing preview buffer
-set completeopt=menu,menuone,preview,longest
-if has('patch-7.4-775')
-    set completeopt+=noinsert
-    set completeopt+=noselect
-endif
+"""""""""""""""""""""""""
+" ncm2                  "
+"                       "
+"""""""""""""""""""""""""
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
-let g:asyncomplete_auto_popup = 1
-"let g:asyncomplete_auto_completeopt = 1
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+let g:float_preview#docked = 0
+
+"""""""""""""""""""""""""
+" vim-lsp               "
+"                       "
+"""""""""""""""""""""""""
+let g:lsp_diagnostics_enabled = 0
 let g:lsp_signature_help_enabled = 1
 let g:lsp_virtual_text_enabled = 0
-"let g:asyncomplete_force_refresh_on_context_changed = 1
-"let g:asyncomplete_log_file = '/home/libor/.vim/asyncomplete.log'
-"let g:lsp_log_file = expand('~/.vim/vim-lsp.log')
+let g:lsp_highlight_references_enabled = 1
+highlight lspReference ctermfg=white guifg=red ctermbg=18 guibg=green
 
 if executable('gopls')
     au User lsp_setup call lsp#register_server({
@@ -196,30 +198,4 @@ if executable('lua-lsp')
         \ 'whitelist': ['lua'],
         \ })
 endif
-
-call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go', 'c', 'cpp', 'python'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ 'config': {
-    \    'max_buffer_size': 5000000,
-    \  },
-    \ }))
-
-call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-
-"call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-"    \ 'name': 'tags',
-"    \ 'whitelist': ['*'],
-"    \ 'completor': function('asyncomplete#sources#tags#completor'),
-"    \ 'config': {
-"    \    'max_file_size': 50000000,
-"    \  },
-"    \ }))
 
