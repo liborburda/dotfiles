@@ -94,7 +94,9 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/vim-lsp'
     Plug 'ncm2/ncm2-vim-lsp'
-    Plug 'ncm2/float-preview.nvim'
+    if has('nvim-0.4')
+        Plug 'ncm2/float-preview.nvim'
+    endif
 
 call plug#end()
 
