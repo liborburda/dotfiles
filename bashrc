@@ -39,7 +39,7 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 # Change the window title of X terminals 
 case ${TERM} in
-	[aEkx]term*|rxvt*|gnome*|konsole*|interix|screen*)
+	[aEkx]term*|rxvt*|gnome*|konsole*|interix)
 		PS1='\[\033]0;\u@\h:\w\007\]'
 
 		# Base16 Shell
@@ -48,15 +48,9 @@ case ${TERM} in
 		    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
 			eval "$("$BASE16_SHELL/profile_helper.sh")"
 		;;
-	#screen*)
-	#	PS1='\[\033k\u@\h:\w\033\\\]'
-
-	#	# Base16 Shell
-	#	BASE16_SHELL="$HOME/.config/base16-shell/"
-	#	[ -n "$PS1" ] && \
-	#	    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-	#		eval "$("$BASE16_SHELL/profile_helper.sh")"
-	#	;;
+	screen*)
+		PS1='\[\033k\u@\h:\w\033\\\]'
+		;;
 	*)
 		unset PS1
 		;;
