@@ -15,7 +15,7 @@ require("awful.hotkeys_popup.keys.vim")
 -- Widget and layout library
 local wibox = require("wibox")
 local vicious = require("vicious")
---local xrandr = require("xrandr")
+local xrandr = require("xrandr")
 
 local sharedtags = require("sharedtags")
 

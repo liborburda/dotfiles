@@ -132,5 +132,3 @@ alias mnt='udisksctl mount -b'
 alias umnt='udisksctl unmount -b'
 alias cal='cal -y -m -w'
 
-export QT_QPA_PLATFORMTHEME="qt5ct"
-

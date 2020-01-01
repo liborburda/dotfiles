@@ -90,6 +90,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ncm2/ncm2'
     Plug 'roxma/nvim-yarp'
     Plug 'ncm2/ncm2-bufword'
+    Plug 'fgrsnau/ncm2-otherbuf'
     Plug 'ncm2/ncm2-path'
     Plug 'prabirshrestha/async.vim'
     Plug 'prabirshrestha/vim-lsp'
