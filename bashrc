@@ -132,3 +132,7 @@ alias mnt='udisksctl mount -b'
 alias umnt='udisksctl unmount -b'
 alias cal='cal -y -m -w'
 
+if [ -x $(command -v kubectl) ]; then
+    source <(kubectl completion bash)
+fi
+
