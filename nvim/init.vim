@@ -87,17 +87,24 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
 
-    Plug 'ncm2/ncm2'
-    Plug 'roxma/nvim-yarp'
-    Plug 'ncm2/ncm2-bufword'
-    Plug 'fgrsnau/ncm2-otherbuf'
-    Plug 'ncm2/ncm2-path'
-    Plug 'prabirshrestha/async.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'ncm2/ncm2-vim-lsp'
-    if has('nvim-0.4')
-        Plug 'ncm2/float-preview.nvim'
+    if has('nvim')
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        Plug 'prabirshrestha/async.vim'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'lighttiger2505/deoplete-vim-lsp'
     endif
+
+"    Plug 'ncm2/ncm2'
+"    Plug 'roxma/nvim-yarp'
+"    Plug 'ncm2/ncm2-bufword'
+"    Plug 'fgrsnau/ncm2-otherbuf'
+"    Plug 'ncm2/ncm2-path'
+"    Plug 'prabirshrestha/async.vim'
+"    Plug 'prabirshrestha/vim-lsp'
+"    Plug 'ncm2/ncm2-vim-lsp'
+"    if has('nvim-0.4')
+"        Plug 'ncm2/float-preview.nvim'
+"    endif
 
 call plug#end()
 
@@ -151,15 +158,21 @@ vnoremap ,p "+p
 vnoremap ,P "+P
 
 """""""""""""""""""""""""
+" deoplete              "
+"                       "
+"""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1
+
+"""""""""""""""""""""""""
 " ncm2                  "
 "                       "
 """""""""""""""""""""""""
-autocmd BufEnter * call ncm2#enable_for_buffer()
+"autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
+"set completeopt=noinsert,menuone,noselect
 
-let g:float_preview#docked = 0
+"let g:float_preview#docked = 0
 
 """""""""""""""""""""""""
 " vim-lsp               "
