@@ -162,6 +162,7 @@ vnoremap ,P "+P
 "                       "
 """""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1
+let g:float_preview#docked = 0
 
 """""""""""""""""""""""""
 " ncm2                  "
@@ -171,8 +172,6 @@ let g:deoplete#enable_at_startup = 1
 
 " IMPORTANT: :help Ncm2PopupOpen for more information
 "set completeopt=noinsert,menuone,noselect
-
-"let g:float_preview#docked = 0
 
 """""""""""""""""""""""""
 " vim-lsp               "
