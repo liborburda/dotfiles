@@ -101,6 +101,9 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+" prefer python3 (Gundo uses python2.7 by default)
+let g:gundo_prefer_python3 = 1
+
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
 
