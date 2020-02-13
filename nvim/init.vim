@@ -162,7 +162,7 @@ vnoremap ,P "+P
 "                       "
 """""""""""""""""""""""""
 let g:deoplete#enable_at_startup = 1
-let g:float_preview#docked = 0
+set completeopt=noinsert,menuone,noselect
 
 """""""""""""""""""""""""
 " ncm2                  "
@@ -172,6 +172,9 @@ let g:float_preview#docked = 0
 
 " IMPORTANT: :help Ncm2PopupOpen for more information
 "set completeopt=noinsert,menuone,noselect
+
+" Enable g:float_preview to be floating instead of opened in separate window
+"let g:float_preview#docked = 0
 
 """""""""""""""""""""""""
 " vim-lsp               "
