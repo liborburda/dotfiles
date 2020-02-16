@@ -12,7 +12,7 @@ dotfiles=(
 
 # Packages names differ among distributions
 gentoo_packages=("app-editors/neovim" "dev-python/pynvim" "net-libs/nodejs")
-arch_packages=("neovim" "python-pynvim" "nodejs")
+arch_packages=("neovim" "python-pynvim" "nodejs" "yarn")
 redhat_packages=()
 
 pip_packages=()
@@ -53,22 +53,24 @@ install_dist_packages() {
 }
 
 install_arch() {
-    for pkg in "${arch_packages[*]}"; do
+    for pkg in ${arch_packages[*]}; do
         if ! [ "$(pacman_pkg_installed ${pkg})" = "0" ]; then
             print_info "Installing ${pkg}"
-            pacman -S --noconfirm ${pkg} >/dev/null 2>&1
+            sudo -p "Enter sudo password: " pacman -S --noconfirm "${pkg}" >/dev/null
         fi
     done
+    sudo -k # Next time sudo is run a password will be required
 }
 
 install_gentoo() {
 
-    for pkg in "${gentoo_packages[*]}"; do
+    for pkg in ${gentoo_packages[*]}; do
         if ! [ "$(portage_pkg_installed ${pkg})" = "0" ]; then
             print_info "Installing ${pkg}"
-            emerge ${pkg} >/dev/null 2>&1
+            sudo -p "Enter sudo password: " emerge "${pkg}" >/dev/null
         fi
     done
+    sudo -k # Next time sudo is run a password will be required
 }
 
 install_redhat() {
@@ -79,7 +81,7 @@ install_redhat() {
 symlink_dotfiles() {
     [ -d "${HOME}/.config" ] || mkdir "${HOME}/.config"
 
-    for df in "${!dotfiles[@]}"; do
+    for df in ${!dotfiles[@]}; do
         symlink "${PWD}/${df}" "${HOME}/${dotfiles[$df]}"
     done
 
