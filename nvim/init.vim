@@ -87,24 +87,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
 
-    if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        Plug 'prabirshrestha/async.vim'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'lighttiger2505/deoplete-vim-lsp'
-    endif
-
-"    Plug 'ncm2/ncm2'
-"    Plug 'roxma/nvim-yarp'
-"    Plug 'ncm2/ncm2-bufword'
-"    Plug 'fgrsnau/ncm2-otherbuf'
-"    Plug 'ncm2/ncm2-path'
-"    Plug 'prabirshrestha/async.vim'
-"    Plug 'prabirshrestha/vim-lsp'
-"    Plug 'ncm2/ncm2-vim-lsp'
-"    if has('nvim-0.4')
-"        Plug 'ncm2/float-preview.nvim'
-"    endif
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -135,8 +118,8 @@ nnoremap ,t :CtrlPTag<CR>
 
 noremap j gj
 noremap k gk
-noremap <C-m> gt
-noremap <C-n> gT
+"noremap <C-m> gt
+"noremap <C-n> gT
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
@@ -157,66 +140,21 @@ nnoremap ,P "+P
 vnoremap ,p "+p
 vnoremap ,P "+P
 
+
 """""""""""""""""""""""""
-" deoplete              "
+" coc                   "
 "                       "
 """""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 1
 set completeopt=noinsert,menuone,noselect
 
-"""""""""""""""""""""""""
-" ncm2                  "
-"                       "
-"""""""""""""""""""""""""
-"autocmd BufEnter * call ncm2#enable_for_buffer()
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 
-" IMPORTANT: :help Ncm2PopupOpen for more information
-"set completeopt=noinsert,menuone,noselect
-
-" Enable g:float_preview to be floating instead of opened in separate window
-"let g:float_preview#docked = 0
-
-"""""""""""""""""""""""""
-" vim-lsp               "
-"                       "
-"""""""""""""""""""""""""
-let g:lsp_diagnostics_enabled = 0
-let g:lsp_signature_help_enabled = 1
-let g:lsp_virtual_text_enabled = 0
-let g:lsp_highlight_references_enabled = 1
-highlight lspReference ctermfg=white guifg=red ctermbg=18 guibg=green
-
-if executable('gopls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
-endif
-
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd', '-background-index']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-        \ })
-endif
-
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-"        \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
-
-if executable('lua-lsp')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'lua-lsp',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'lua-lsp']},
-        \ 'whitelist': ['lua'],
-        \ })
-endif
+inoremap <silent><expr> <C-n>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<C-n>" :
+      \ coc#refresh()
 
