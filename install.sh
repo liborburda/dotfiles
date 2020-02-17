@@ -31,13 +31,20 @@ main() {
 install_neovim_plugins() {
     # Install neovim plugins using vim-plug
     nvim '+PlugInstall | qa'
-    # Remove old unused plugins
-    nvim '+PlugClean | qa'
-    # Install Coc extensions
-    nvim '+CocInstall -sync coc-python coc-json coc-go | qa'
+    # Install Coc basic extensions
+    nvim '+CocInstall -sync coc-json coc-yaml coc-sh | qa'
 
-    [ -x "$(command -v go)" ] && ( cd "${HOME}" && GO111MODULE=on go get golang.org/x/tools/gopls >/dev/null 2>&1 )
-    [ -x "$(command -v python3)" ] && ( cd "${HOME}" && python3 -m pip install --user jedi pylint >/dev/null 2>&1 )
+    if [ -x "$(command -v go)" ]; then
+        ( cd "${HOME}" && GO111MODULE=on go get golang.org/x/tools/gopls >/dev/null 2>&1 )
+        nvim '+CocInstall -sync coc-go | qa'
+    fi
+    if [ -x "$(command -v python3)" ]; then
+        ( cd "${HOME}" && python3 -m pip install --user jedi pylint >/dev/null 2>&1 )
+        nvim '+CocInstall -sync coc-python | qa'
+    fi
+    if [ -x "$(command -v java)" ]; then
+        nvim '+CocInstall -sync coc-java | qa'
+    fi
 }
 
 install_dist_packages() {

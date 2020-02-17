@@ -1,5 +1,8 @@
 {
     "suggest.noselect": true,
-    "suggest.enablePreselect": false
+    "suggest.enablePreselect": false,
+    "yaml.schemas": {
+        "kubernetes": "/*.yaml"
+    }
 }
 
