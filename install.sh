@@ -110,7 +110,7 @@ symlink() {
         if [ -L "${dest}" ]; then
             unlink "${dest}"
         else
-            rm -r "${dest}"
+            rm -rf "${dest}"
         fi
     fi
 
