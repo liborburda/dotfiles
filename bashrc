@@ -136,3 +136,7 @@ if [ -x "$(command -v kubectl)" ]; then
     source <(kubectl completion bash)
 fi
 
+if [ -x "$(command -v helm)" ]; then
+    source <(helm completion bash)
+fi
+
