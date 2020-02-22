@@ -45,6 +45,9 @@ install_neovim_plugins() {
     if [ -x "$(command -v java)" ]; then
         nvim '+CocInstall -sync coc-java | qa'
     fi
+    if [ -x "$(command -v clangd)" ]; then
+        nvim '+CocInstall -sync coc-clangd | qa'
+    fi
 }
 
 install_dist_packages() {
@@ -52,8 +55,8 @@ install_dist_packages() {
         install_arch
     elif [ -f "/etc/gentoo-release" ]; then
         install_gentoo
-    elif [ -f "/etc/redhat-release" ]; then
-        install_redhat
+#    elif [ -f "/etc/redhat-release" ]; then
+#        install_redhat
     else
         print_error_n_exit "Unsupported distribution."
     fi
