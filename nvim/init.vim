@@ -30,17 +30,14 @@ set linebreak
 set textwidth=0
 set wrapmargin=0
 
-set nobackup
-set nowritebackup
-set noswapfile
+set backupdir=~/.config/nvim/tmp/backup//
+set directory=~/.config/nvim/tmp/swap//
+set undodir=~/.config/nvim/tmp/undo//
+set history=200
+set undolevels=200
 
 set number
 " set relativenumber
-
-set undofile
-set undodir=~/.vim/tmp/undo//
-set history=200
-set undolevels=200
 
 set encoding=utf-8
 set fileencoding=utf-8
