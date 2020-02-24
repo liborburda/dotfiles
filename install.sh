@@ -11,8 +11,8 @@ dotfiles=(
 )
 
 # Packages names differ among distributions
-gentoo_packages=("app-editors/neovim" "dev-python/pynvim" "net-libs/nodejs")
-arch_packages=("neovim" "python-pynvim" "nodejs" "yarn")
+gentoo_packages=("app-editors/neovim" "dev-python/pynvim" "net-libs/nodejs" "dev-vcs/git")
+arch_packages=("neovim" "python-pynvim" "nodejs" "yarn" "git")
 redhat_packages=()
 
 pip_packages=()
@@ -23,6 +23,8 @@ main() {
     symlink_dotfiles
 
     install_neovim_plugins
+
+    configure_git
 
     print_info "All done."
     print_warn "Please run \"source ~/.bashrc\"."
@@ -141,6 +143,12 @@ portage_pkg_installed() {
 yum_pkg_installed() {
     # TODO: Implement
     return 1
+}
+
+configure_git() {
+    git config --global core.editor nvim
+    git config --global mergetool.fugitive.cmd 'nvim -f -c "Gvdiffsplit!" "$MERGED"'
+    git config --global merge.tool fugitive
 }
 
 print_info() {
