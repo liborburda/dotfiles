@@ -30,7 +30,7 @@ set linebreak
 set textwidth=0
 set wrapmargin=0
 
-set backupdir=~/.config/nvim/tmp/backup//
+set backupdir=~/.config/nvim/tmp/backup
 set directory=~/.config/nvim/tmp/swap//
 set undodir=~/.config/nvim/tmp/undo//
 set history=200
