@@ -84,8 +84,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
 
-    Plug 'camspiers/animate.vim'
-    Plug 'camspiers/lens.vim'
+"    Plug 'camspiers/animate.vim'
+"    Plug 'camspiers/lens.vim'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
