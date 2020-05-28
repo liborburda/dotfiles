@@ -140,6 +140,8 @@ nnoremap ,P "+P
 vnoremap ,p "+p
 vnoremap ,P "+P
 
+" terminal
+tnoremap <Esc> <C-\><C-n>
 
 """""""""""""""""""""""""
 " coc                   "
