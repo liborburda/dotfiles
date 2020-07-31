@@ -7,14 +7,16 @@ set ignorecase
 set smartcase
 set showmatch
 
+
+
 set title
 set nocompatible 
 set showmode
 
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set shiftround
 set autoindent
 
@@ -42,8 +44,8 @@ set number
 set encoding=utf-8
 set fileencoding=utf-8
 
-"set mouse=n
-set clipboard=unnamed
+set mouse=a
+set clipboard=unnamedplus
 
 set cursorline
 " set cursorcolumn
@@ -55,14 +57,6 @@ set colorcolumn=80
 set tags=./tags;/
 
 set laststatus=2
-
-set statusline=
-set statusline=%F         " Path to the file
-set statusline+=%=        " Switch to the right side
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}] "file encoding
-set statusline+=[%l        " Current line
-set statusline+=/         " Separator
-set statusline+=%L]        " Total lines
 
 set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
@@ -84,10 +78,14 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
 
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+
 "    Plug 'camspiers/animate.vim'
 "    Plug 'camspiers/lens.vim'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 call plug#end()
 
