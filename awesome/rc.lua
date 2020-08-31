@@ -46,14 +46,14 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-config_dir = ("/home/libor/.config/awesome/")
-theme_dir = (config_dir .. "themes/blue/")
+config_dir = os.getenv("HOME") .. "/.config/awesome/"
+theme_dir = config_dir .. "themes/blue/"
 beautiful.init(theme_dir .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
-editor = "vim"
-editor_cmd = terminal .. " -e " .. editor
+-- editor = "vim"
+-- editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -123,34 +123,27 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibar
 --
 -- Create a time & date widget
-clocktext = wibox.widget.textbox()
-vicious.register(clocktext, vicious.widgets.date, '%H:%M  %d.%m.%y', 1)
-clockicon = wibox.widget.imagebox()
-clockicon:set_image(beautiful.icon_clock)
+-- Textclock
+local clockicon = wibox.widget.imagebox(beautiful.icon_clock)
+local clocktext = wibox.widget.textclock('%H:%M  %d.%m.%y', 1)
+local month_calendar = awful.widget.calendar_popup.month()
+month_calendar:attach(clocktext, 'tr')
 
 -- Calendar
-local cal = require('calendar')
-cal:attach(clocktext, {font="xos4 Terminus", font_size=14})
-
--- Built-in calendar from awful.widget is slow as fuck
---month_calendar = awful.widget.calendar_popup.year()
---month_calendar:attach(clocktext, "tr" )
+-- local cal = require('calendar')
+-- cal:attach(clocktext, {font="xos4 Terminus", font_size=14})
 
 -- Separator widget
-spr = wibox.widget.textbox()
-spr:set_text(' | ')
+spr = wibox.widget.textbox(" | ")
 
-sprspace = wibox.widget.textbox()
-sprspace:set_text(' ')
+sprspace = wibox.widget.textbox(" ")
 
 -- Keyboard map indicator and switcher
-keyboardicon = wibox.widget.imagebox()
-keyboardicon:set_image(beautiful.icon_keyboard)
+keyboardicon = wibox.widget.imagebox(beautiful.icon_keyboard)
 keyboardlayout = awful.widget.keyboardlayout()
 
 -- Volume widget
-volumeicon = wibox.widget.imagebox()
-volumeicon:set_image(beautiful.icon_volume)
+volumeicon = wibox.widget.imagebox(beautiful.icon_volume)
 volumewidget = wibox.widget.textbox()
 vicious.register(volumewidget, vicious.widgets.volume, function(widget, args)
     local paraone = tonumber(args[1])
@@ -160,16 +153,16 @@ vicious.register(volumewidget, vicious.widgets.volume, function(widget, args)
     else
         return args[1] .. "%"
     end
-end, 60, "Master")
+end, 5, "Master")
 
 volumewidget:buttons(
     awful.util.table.join(
         awful.button({ }, 4, function ()
-            awful.util.spawn("amixer set Master 3%+")
+            awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%", false)
             vicious.force({ volumewidget, })
         end),
         awful.button({ }, 5, function ()
-            awful.util.spawn("amixer set Master 3%-")
+            awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%", false)
             vicious.force({ volumewidget, })
         end)
     )
@@ -179,7 +172,7 @@ volumewidget:buttons(
 -- shows battery status
 -- shows warning when battery status is below 15
 local last_battery_check = os.time()
-batteryicon = wibox.widget.imagebox()
+batteryicon = wibox.widget.imagebox(beautiful.icon_battery_full)
 batterywidget = wibox.widget.textbox()
 vicious.register(batterywidget, vicious.widgets.bat, function(widget, args)
     if (args[1] == "+" or args[1] == "⌁" or args[1] == "↯") then
@@ -199,50 +192,34 @@ vicious.register(batterywidget, vicious.widgets.bat, function(widget, args)
                     fg = "#EEE9EF",
                     width = 300,
                 }
-
             end --end if
         end --end if
     end --end if
-
     return args[2] .. "%" -- returns charging and percent status
 end --end function
 , 10, "BAT1")
 
 -- Wired network widget
 wiredtext = wibox.widget.textbox()
-wiredicon = wibox.widget.imagebox()
-wiredicon:set_image(beautiful.icon_net_wired)
+wiredicon = wibox.widget.imagebox(beautiful.icon_net_wired)
 vicious.register(wiredicon, vicious.widgets.net, function(widget, args)
-    if args["{eth0 carrier}"] == 1 then
+    if args["{enp3s0 carrier}"] == 1 then
         wiredtext:set_text("up")
     else
         wiredtext:set_text("down")
     end
 end, 1)
 
--- wlan0 wireless network widget
-wlan0text = wibox.widget.textbox()
-wlan0icon = wibox.widget.imagebox()
-wlan0icon:set_image(beautiful.icon_net_high)
-vicious.register(wlan0icon, vicious.widgets.wifi, function(widget, args)
+-- wireless wireless network widget
+wirelessicon = wibox.widget.imagebox(beautiful.icon_net_high)
+wirelesstext = wibox.widget.textbox()
+vicious.register(wirelessicon, vicious.widgets.wifi, function(widget, args)
     if args["{ssid}"] ~= "N/A" then
-        wlan0text:set_text(args["{ssid}"])
+        wirelesstext:set_text(args["{ssid}"])
     else
-        wlan0text:set_text("down")
+        wirelesstext:set_text("down")
     end
-end, 1, "wlan0")
---
--- wlan1 wireless network widget
--- wlan1text = wibox.widget.textbox()
--- wlan1icon = wibox.widget.imagebox()
--- wlan1icon:set_image(beautiful.icon_net_high)
--- vicious.register(wlan1icon, vicious.widgets.wifi, function(widget, args)
---     if args["{ssid}"] ~= "N/A" then
---         wlan1text:set_text(args["{ssid}"])
---     else
---         wlan1text:set_text("down")
---     end
--- end, 1, "wlan1")
+end, 1, "wlp5s0")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -374,9 +351,9 @@ awful.screen.connect_for_each_screen(function(s)
         sprspace,
 	    wiredtext,
 	    spr,
-	    wlan0icon,
+	    wirelessicon,
         sprspace,
-	    wlan0text,
+	    wirelesstext,
 	    spr,
 	    -- wlan1icon,
         -- sprspace,
@@ -503,27 +480,27 @@ globalkeys = gears.table.join(
 
     -- Volume Control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-        awful.util.spawn("amixer set Master 3%+", false )
+        awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%", false )
         vicious.force({ volumewidget, })
     end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-        awful.util.spawn("amixer set Master 3%-", false )
+        awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%", false )
         vicious.force({ volumewidget, })
     end),
     awful.key({ }, "XF86AudioMute", function ()
-        awful.util.spawn("amixer set Master toggle", false )
+        awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", false )
         vicious.force({ volumewidget, })
     end),
 
     -- MPD control
-    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("mpc -h /var/lib/mpd/socket toggle") end),
-    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("mpc -h /var/lib/mpd/socket stop") end),
-    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("mpc -h /var/lib/mpd/socket next") end),
-    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("mpc -h /var/lib/mpd/socket prev") end),
+    awful.key({ }, "XF86AudioPlay", function () awful.util.spawn("audacious -t") end),
+    awful.key({ }, "XF86AudioStop", function () awful.util.spawn("audacious -s") end),
+    awful.key({ }, "XF86AudioNext", function () awful.util.spawn("audacious -f") end),
+    awful.key({ }, "XF86AudioPrev", function () awful.util.spawn("audacious -r") end),
 
-    awful.key({ modkey, }, "F8",  function () awful.util.spawn("mpc -h /var/lib/mpd/socket prev") end),
-    awful.key({ modkey, }, "F9",  function () awful.util.spawn("mpc -h /var/lib/mpd/socket toggle") end),
-    awful.key({ modkey, }, "F10", function () awful.util.spawn("mpc -h /var/lib/mpd/socket next") end),
+    awful.key({ modkey, }, "F8",  function () awful.util.spawn("audacious -r") end),
+    awful.key({ modkey, }, "F9",  function () awful.util.spawn("audacious -t") end),
+    awful.key({ modkey, }, "F10", function () awful.util.spawn("audacious -f") end),
 
     -- Calculator
     awful.key({ }, "XF86Calculator", function () awful.util.spawn("qalculate-gtk") end),
@@ -552,7 +529,7 @@ globalkeys = gears.table.join(
     awful.key({ }, "XF86Display", function () xrandr.xrandr() end),
 
 	-- Sleep
-	awful.key({ }, "XF86Sleep", function () awful.util.spawn("sudo pm-suspend") end),
+	-- awful.key({ }, "XF86Sleep", function () awful.util.spawn("loginctl suspend") end),
 
     -- Touchpad
     -- awful.key({ }, "XF86TouchpadOn", function () awful.util.spawn("synclient touchpadoff=0") end),
@@ -721,7 +698,7 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { maximized_vertical = true, maximized_horizontal = true } },
-    { rule = { class = "Google-chrome" },
+    { rule = { class = "Chromium" },
       properties = { border_width = 0 } },
     { rule = { class = "Vivaldi-stable" },
       properties = { border_width = 0 } },

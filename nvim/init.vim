@@ -7,10 +7,10 @@ set ignorecase
 set smartcase
 set showmatch
 
-
+set updatetime=100
 
 set title
-set nocompatible 
+set nocompatible
 set showmode
 
 set expandtab
@@ -50,9 +50,6 @@ set clipboard=unnamedplus
 set cursorline
 " set cursorcolumn
 set colorcolumn=80
-
-"set wildmenu
-"set wildmode=list:longest,full
 
 set tags=./tags;/
 
