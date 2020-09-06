@@ -51,7 +51,7 @@ theme_dir = config_dir .. "themes/blue/"
 beautiful.init(theme_dir .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "xterm"
 -- editor = "vim"
 -- editor_cmd = terminal .. " -e " .. editor
 
