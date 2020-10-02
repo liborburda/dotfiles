@@ -100,6 +100,7 @@ autocmd FileType yml set autoindent tabstop=2 shiftwidth=2 expandtab
 let base16colorspace=256
 set background=dark
 colorscheme base16-tomorrow-night
+highlight Pmenu ctermbg=4 ctermfg=0
 
 map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFocusToggle<CR>
