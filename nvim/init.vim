@@ -115,10 +115,10 @@ noremap j gj
 noremap k gk
 "noremap <C-m> gt
 "noremap <C-n> gT
-noremap <C-l> <C-w>l
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
 
 " indent block and get back to visual mode
 vnoremap < <gv
@@ -142,6 +142,17 @@ tnoremap <Esc> <C-\><C-n>
 " coc                   "
 "                       "
 """""""""""""""""""""""""
+
+let g:coc_global_extensions = [
+    \ 'coc-go',
+    \ 'coc-java',
+    \ 'coc-sh',
+    \ 'coc-json',
+    \ 'coc-yaml',
+    \ 'coc-python',
+    \ 'coc-clangd'
+  \ ]
+
 set completeopt=noinsert,menuone,noselect
 
 " use <tab> for trigger completion and navigate to the next complete item
@@ -161,10 +172,18 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap ,cd <Plug>(coc-definition)
+nmap ,cy <Plug>(coc-type-definition)
+nmap ,ci <Plug>(coc-implementation)
+nmap ,cr <Plug>(coc-references)
+" Symbol renaming.
+nmap ,cn <Plug>(coc-rename)
+" CocAction
+nmap ,ca :CocAction<CR>
+
+" Formatting selected code.
+xmap ,cf <Plug>(coc-format-selected)
+nmap ,cf <Plug>(coc-format-selected)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -179,11 +198,3 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
