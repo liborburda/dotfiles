@@ -3,28 +3,23 @@
 declare -A dotfiles
 dotfiles=(
     ["awesome"]=".config/awesome"
-    ["base16-shell"]=".config/base16-shell"
     ["nvim"]=".config/nvim"
     ["bashrc"]=".bashrc"
-    ["Xdefaults"]=".Xdefaults"
+    ["Xresources"]=".Xresources"
     ["tmux.conf"]=".tmux.conf"
 )
 
 # Packages names differ among distributions
 gentoo_packages=("app-editors/neovim" "dev-python/pynvim" "net-libs/nodejs" "dev-vcs/git")
-arch_packages=("neovim" "python-pynvim" "nodejs" "yarn" "git")
+arch_packages=("neovim" "python-pynvim" "nodejs" "npm" "git")
 redhat_packages=()
-
-pip_packages=()
 
 main() {
     install_dist_packages
-
     symlink_dotfiles
-
     install_neovim_plugins
-
     configure_git
+    configure_bash
 
     print_info "All done."
     print_warn "Please run \"source ~/.bashrc\"."
@@ -40,13 +35,16 @@ install_neovim_plugins() {
         ( cd "${HOME}" && GO111MODULE=on go get golang.org/x/tools/gopls >/dev/null 2>&1 )
         nvim '+CocInstall -sync coc-go | qa'
     fi
+
     if [ -x "$(command -v python3)" ]; then
         ( cd "${HOME}" && python3 -m pip install --user jedi pylint >/dev/null 2>&1 )
         nvim '+CocInstall -sync coc-python | qa'
     fi
+
     if [ -x "$(command -v java)" ]; then
         nvim '+CocInstall -sync coc-java | qa'
     fi
+
     if [ -x "$(command -v clangd)" ]; then
         nvim '+CocInstall -sync coc-clangd | qa'
     fi
@@ -96,7 +94,6 @@ symlink_dotfiles() {
     for df in ${!dotfiles[@]}; do
         symlink "${PWD}/${df}" "${HOME}/${dotfiles[$df]}"
     done
-
 }
 
 symlink() {
@@ -105,7 +102,6 @@ symlink() {
     # If dotfile already exist, backup it
     #   If it's regular file, remove it
     #   If it's symlink, unlink it
-
     [ -d "${PWD}/backup" ] || mkdir -p "${PWD}/backup"
 
     if [ -f "${dest}" ] || [ -d "${dest}" ]; then
@@ -124,18 +120,18 @@ symlink() {
     print_info "Dotfile ${src} linked."
 }
 
+# Check if package is installed
+# Return 0 if installed
+# Return 1 if not installed
 pacman_pkg_installed() {
-    # Check if package is installed
-    # Return 0 if installed
-    # Return 1 if not installed
     pacman -Qi $1 >/dev/null 2>&1
     echo "$?"
 }
 
+# Check if package is installed
+# Return 0 if installed
+# Return 1 if not installed
 portage_pkg_installed() {
-    # Check if package is installed
-    # Return 0 if installed
-    # Return 1 if not installed
     equery list $1 >/dev/null 2>&1
     echo "$?"
 }
@@ -149,6 +145,11 @@ configure_git() {
     git config --global core.editor nvim
     git config --global mergetool.fugitive.cmd 'nvim -f -c "Gvdiffsplit!" "$MERGED"'
     git config --global merge.tool fugitive
+}
+
+configure_bash() {
+    # Add shell-option to ~/.inputrc to enable case-insensitive tab completion
+    echo 'set completion-ignore-case On' >> ~/.inputrc
 }
 
 print_info() {

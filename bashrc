@@ -41,12 +41,6 @@ PS1+="\$( kubectl config current-context 2>/dev/null | awk '{ print \$0\" \" }' 
 # Final dollar
 PS1+="\[\033[01;34m\]\$\[\033[00m\] "
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-  [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-  eval "$("$BASE16_SHELL/profile_helper.sh")"
-
 mt() {
   mosh $1 -- tmux new -ADs 0
 }
