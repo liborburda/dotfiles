@@ -126,6 +126,12 @@ inoremap <silent><expr> <C-n>
       \ coc#refresh()
 
 """""""""""""""""""""""""""""
+" Fugitive                  "
+"""""""""""""""""""""""""""""
+" Autoclean buffers
+autocmd BufReadPost fugitive://* set bufhidden=delete
+
+"""""""""""""""""""""""""""""
 " Keyboard mapping          "
 """""""""""""""""""""""""""""
 let mapleader=","
@@ -137,7 +143,7 @@ map <F5> :TagbarToggle<CR>
 map <F6> :UndotreeToggle<CR>
 
 " CtrlP config mapping
-"nnoremap <Leader>f :CtrlP<CR>
+nnoremap <Leader>f :CtrlP<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>t :CtrlPTag<CR>
 
@@ -208,22 +214,23 @@ endfunction
 command! ToggleGStatus :call ToggleGStatus()
 
 nnoremap _ :ToggleGStatus<CR>
-nnoremap <leader>gs  :Gstatus<CR>
-nnoremap <leader>gl  :Gclog!<CR>
-nnoremap <leader>gd  :Gdiff<CR>
-nnoremap <leader>gcc :Gcommit<CR>
-nnoremap <leader>gca :Gcommit --amend<CR>
-nnoremap <leader>gco :Git checkout<Space>
-nnoremap <leader>gb  :Gblame<CR>
-nnoremap <leader>ge  :Gedit<CR>
-nnoremap <leader>gE  :Gedit<Space>
-nnoremap <leader>gr  :Gread<CR>
-nnoremap <leader>gR  :Gread<Space>
-nnoremap <leader>gw  :Gwrite<CR>
-nnoremap <leader>gW  :Gwrite!<CR>
-nnoremap <leader>gp  :Git pull<CR>
-nnoremap <leader>gP  :Git push<CR>
-nnoremap <leader>gq  :Gwq<CR>
-nnoremap <leader>gQ  :Gwq!<CR>
-nnoremap <leader>g+  :Git stash<CR>
-nnoremap <leader>g-  :Git stash pop<CR>
+nnoremap <Leader>gs  :G<CR>
+nnoremap <Leader>gl  :Gclog!<CR>
+nnoremap <Leader>gd  :Gdiffsplit<CR>
+nnoremap <Leader>gcc :Gcommit<CR>
+nnoremap <Leader>gca :Gcommit --amend<CR>
+nnoremap <Leader>gco :Git checkout<Space>
+nnoremap <Leader>gb  :Gblame<CR>
+nnoremap <Leader>ge  :Gedit %<CR>
+nnoremap <Leader>gE  :Gedit<Space>
+nnoremap <Leader>gr  :Gread<CR>
+nnoremap <Leader>gR  :Gread<Space>
+nnoremap <Leader>gw  :Gwrite<CR>
+nnoremap <Leader>gW  :Gwrite!<CR>
+nnoremap <Leader>gp  :Git pull<CR>
+nnoremap <Leader>gP  :Git push -u origin HEAD<CR>
+nnoremap <Leader>gq  :Gwq<CR>
+nnoremap <Leader>gQ  :Gwq!<CR>
+nnoremap <Leader>g+  :Git stash push<CR>
+nnoremap <Leader>g-  :Git stash pop<CR>
+
