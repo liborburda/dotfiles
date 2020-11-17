@@ -62,7 +62,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
-    Plug 'sjl/gundo.vim'
+    Plug 'mbbill/undotree'
     Plug 'majutsushi/tagbar'
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
@@ -134,7 +134,7 @@ map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFocusToggle<CR>
 set pastetoggle=<F4>
 map <F5> :TagbarToggle<CR>
-map <F6> :GundoToggle<CR>
+map <F6> :UndotreeToggle<CR>
 
 " CtrlP config mapping
 "nnoremap <Leader>f :CtrlP<CR>
@@ -157,13 +157,9 @@ vnoremap > >gv
 inoremap {<CR> {<CR>}<Esc>ko
 
 " clipboard
-vnoremap <Leader>y  "+y
-nnoremap <Leader>y  "+y
-
+vnoremap <Leader>y "+y
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
-vnoremap <Leader>p "+p
-vnoremap <Leader>P "+P
 
 " terminal
 tnoremap <Esc> <C-\><C-n>
@@ -200,3 +196,34 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Fugitive
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        Gstatus
+    endif
+endfunction
+command! ToggleGStatus :call ToggleGStatus()
+
+nnoremap _ :ToggleGStatus<CR>
+nnoremap <leader>gs  :Gstatus<CR>
+nnoremap <leader>gl  :Gclog!<CR>
+nnoremap <leader>gd  :Gdiff<CR>
+nnoremap <leader>gcc :Gcommit<CR>
+nnoremap <leader>gca :Gcommit --amend<CR>
+nnoremap <leader>gco :Git checkout<Space>
+nnoremap <leader>gb  :Gblame<CR>
+nnoremap <leader>ge  :Gedit<CR>
+nnoremap <leader>gE  :Gedit<Space>
+nnoremap <leader>gr  :Gread<CR>
+nnoremap <leader>gR  :Gread<Space>
+nnoremap <leader>gw  :Gwrite<CR>
+nnoremap <leader>gW  :Gwrite!<CR>
+nnoremap <leader>gp  :Git pull<CR>
+nnoremap <leader>gP  :Git push<CR>
+nnoremap <leader>gq  :Gwq<CR>
+nnoremap <leader>gQ  :Gwq!<CR>
+nnoremap <leader>g+  :Git stash<CR>
+nnoremap <leader>g-  :Git stash pop<CR>
