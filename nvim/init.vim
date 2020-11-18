@@ -216,7 +216,7 @@ command! ToggleGStatus :call ToggleGStatus()
 nnoremap _ :ToggleGStatus<CR>
 nnoremap <Leader>gs  :G<CR>
 nnoremap <Leader>gl  :Gclog!<CR>
-nnoremap <Leader>gd  :Gdiffsplit<CR>
+nnoremap <Leader>gd  :Gvdiffsplit!<CR>
 nnoremap <Leader>gcc :Gcommit<CR>
 nnoremap <Leader>gca :Gcommit --amend<CR>
 nnoremap <Leader>gco :Git checkout<Space>
