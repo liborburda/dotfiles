@@ -237,3 +237,10 @@ nnoremap <Leader>gQ  :Gwq!<CR>
 nnoremap <Leader>g+  :Git stash push<CR>
 nnoremap <Leader>g-  :Git stash pop<CR>
 
+"""""""""""""""""""""""""""""""
+" Git-gutter                  "
+"""""""""""""""""""""""""""""""
+nnoremap <Leader>ghs :GitGutterStageHunk<CR>
+nnoremap <Leader>ghu :GitGutterUndoHunk<CR>
+nnoremap <Leader>ghp :GitGutterPreviewHunk<CR>
+
