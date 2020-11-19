@@ -14,9 +14,9 @@ set nocompatible
 set showmode
 
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set shiftround
 set autoindent
 
@@ -98,6 +98,9 @@ set termguicolors
 set background=dark
 let g:gruvbox_termcolors=256
 colorscheme gruvbox
+
+" Show trailing whitepace and spaces before a tab
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 """""""""""""""""""""""""
 " coc                   "
