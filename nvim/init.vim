@@ -67,6 +67,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
+    Plug 'sheerun/vim-polyglot'
 
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
