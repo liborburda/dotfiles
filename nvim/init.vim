@@ -14,30 +14,24 @@ set nocompatible
 set showmode
 
 set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set shiftround
 set autoindent
 
-set foldenable          " enable folding
-set foldmethod=indent
-set foldlevel=99
 set backspace=indent,eol,start
 set hidden
 
 " disable auto line breaking
 set wrap
-set linebreak
-set textwidth=0
-set wrapmargin=0
 
 set undofile
-set history=200
-set undolevels=200
+set history=500
+set undolevels=500
 
 set number
-" set relativenumber
+set relativenumber
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -81,16 +75,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'morhetz/gruvbox'
 call plug#end()
 
-" prefer python3 (Gundo uses python2.7 by default)
-let g:gundo_prefer_python3 = 1
-
 " enable using regexp in ctrlp
 let g:ctrlp_regexp=1
-
-" <Tab> settings for Makefiles
-autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
-autocmd FileType yaml set autoindent tabstop=2 shiftwidth=2 expandtab
-autocmd FileType yml set autoindent tabstop=2 shiftwidth=2 expandtab
 
 """""""""""""""""""""""""
 " Theme + colors        "
@@ -106,28 +92,58 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 """""""""""""""""""""""""
 " coc                   "
 """""""""""""""""""""""""
-let g:coc_global_extensions = [
-    \ 'coc-go',
-    \ 'coc-java',
-    \ 'coc-sh',
-    \ 'coc-json',
-    \ 'coc-yaml',
-    \ 'coc-python',
-    \ 'coc-clangd'
-  \ ]
+"let g:coc_global_extensions = [
+"            \ 'coc-go',
+"            \ 'coc-java',
+"            \ 'coc-java-lombok',
+"            \ 'coc-sh',
+"            \ 'coc-json',
+"            \ 'coc-yaml',
+"            \ 'coc-python',
+"            \ 'coc-clangd'
+"            \ ]
 
 set completeopt=noinsert,menuone,noselect
 
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <silent><expr> <C-n>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<C-n>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<C-n>" :
+            \ coc#refresh()
+
+"""""""""""""""""""""""""""""
+" Terminal                  "
+"""""""""""""""""""""""""""""
+let s:term_buf = 0
+let s:term_win = 0
+
+function! TermToggle(height)
+    if win_gotoid(s:term_win)
+        hide
+    else
+        new terminal
+        exec "resize ".a:height
+        try
+            exec "buffer ".s:term_buf
+            exec "bd terminal"
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let s:term_buf = bufnr("")
+            setlocal nonu nornu scl=no nocul
+        endtry
+        startinsert!
+        let s:term_win = win_getid()
+    endif
+endfunction
+
+nnoremap <silent><F8> :call TermToggle(12)<CR>
+inoremap <silent><F8> <Esc>:call TermToggle(12)<CR>
+tnoremap <silent><F8> <C-\><C-n>:call TermToggle(12)<CR>
 
 """""""""""""""""""""""""""""
 " Fugitive                  "
@@ -145,6 +161,9 @@ map <F3> :NERDTreeFocusToggle<CR>
 set pastetoggle=<F4>
 map <F5> :TagbarToggle<CR>
 map <F6> :UndotreeToggle<CR>
+
+" Close buffer without closing split
+nmap <Leader>q :ene<CR>:bd #<CR>
 
 " CtrlP config mapping
 nnoremap <Leader>f :CtrlP<CR>
@@ -188,7 +207,6 @@ nmap <Leader>cr <Plug>(coc-references)
 nmap <Leader>cn <Plug>(coc-rename)
 " CocAction
 nmap <Leader>ca :CocAction<CR>
-
 " Formatting selected code.
 xmap <Leader>cf <Plug>(coc-format-selected)
 nmap <Leader>cf <Plug>(coc-format-selected)
@@ -196,12 +214,15 @@ nmap <Leader>cf <Plug>(coc-format-selected)
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
+" CocSearch
+nmap <Leader>cs :CocSearch<Space>
+
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.

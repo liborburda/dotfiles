@@ -11,7 +11,7 @@ dotfiles=(
 
 # Packages names differ among distributions
 gentoo_packages=("app-editors/neovim" "dev-python/pynvim" "net-libs/nodejs" "dev-vcs/git")
-arch_packages=("neovim" "python-pynvim" "nodejs" "npm" "git")
+arch_packages=("neovim" "python-pynvim" "nodejs" "npm" "git" "ripgrep" "python-pylint")
 redhat_packages=()
 
 main() {
@@ -23,6 +23,8 @@ main() {
 
     print_info "All done."
     print_warn "Please run \"source ~/.bashrc\"."
+
+    sudo -k # Next time sudo is run a password will be required
 }
 
 install_neovim_plugins() {
@@ -34,6 +36,7 @@ install_neovim_plugins() {
     if [ -x "$(command -v go)" ]; then
         ( cd "${HOME}" && GO111MODULE=on go get golang.org/x/tools/gopls >/dev/null 2>&1 )
         nvim '+CocInstall -sync coc-go | qa'
+
     fi
 
     if [ -x "$(command -v python3)" ]; then
@@ -42,7 +45,8 @@ install_neovim_plugins() {
     fi
 
     if [ -x "$(command -v java)" ]; then
-        nvim '+CocInstall -sync coc-java | qa'
+        nvim '+CocInstall -sync coc-java coc-java-lombok | qa'
+        nvim '+CocCommand java.updateLanguageServer | qa'
     fi
 
     if [ -x "$(command -v clangd)" ]; then
@@ -69,7 +73,6 @@ install_arch() {
             sudo -p "Enter sudo password: " pacman -S --noconfirm "${pkg}" >/dev/null
         fi
     done
-    sudo -k # Next time sudo is run a password will be required
 }
 
 install_gentoo() {
@@ -80,7 +83,6 @@ install_gentoo() {
             sudo -p "Enter sudo password: " emerge "${pkg}" >/dev/null
         fi
     done
-    sudo -k # Next time sudo is run a password will be required
 }
 
 install_redhat() {
