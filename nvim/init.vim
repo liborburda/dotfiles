@@ -53,7 +53,10 @@ set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 set guicursor=a:blinkon0
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'ctrlpvim/ctrlp.vim'
+    if executable('fzf')
+        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+        "Plug 'junegunn/fzf.vim'
+    end
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
     Plug 'mbbill/undotree'
@@ -74,9 +77,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     Plug 'morhetz/gruvbox'
 call plug#end()
-
-" enable using regexp in ctrlp
-let g:ctrlp_regexp=1
 
 """""""""""""""""""""""""
 " Theme + colors        "
@@ -165,10 +165,13 @@ map <F6> :UndotreeToggle<CR>
 " Close buffer without closing split
 nmap <Leader>q :ene<CR>:bd #<CR>
 
-" CtrlP config mapping
-nnoremap <Leader>f :CtrlP<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :CtrlPTag<CR>
+" fzf mapping
+if executable('fzf')
+    nnoremap <Leader>f :CocCommand fzf-preview.DirectoryFiles<CR>
+    nnoremap <Leader>b :CocCommand fzf-preview.Buffers<CR>
+    "nnoremap <Leader>fc :<CR>
+    "nnoremap <Leader>fj :CocCommand fzf-preview.Jumps<CR>
+end
 
 noremap j gj
 noremap k gk
@@ -191,7 +194,10 @@ nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 
 " terminal
-tnoremap <Esc> <C-\><C-n>
+"if has("nvim")
+"  au TermOpen * tnoremap <Esc> <c-\><c-n>
+"  au FileType fzf tunmap <Esc>
+"endif
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
