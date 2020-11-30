@@ -87,7 +87,8 @@ let g:gruvbox_termcolors=256
 colorscheme gruvbox
 
 " Show trailing whitepace and spaces before a tab
-autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+highlight ExtraWhitespace ctermbg=darkred guibg=#880000
+match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 """""""""""""""""""""""""
 " coc                   "
@@ -154,7 +155,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 """""""""""""""""""""""""""""
 " Keyboard mapping          "
 """""""""""""""""""""""""""""
-let mapleader=","
+let mapleader=" "
 
 map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFocusToggle<CR>
@@ -169,6 +170,8 @@ nmap <Leader>q :ene<CR>:bd #<CR>
 if executable('fzf')
     nnoremap <Leader>f :CocCommand fzf-preview.DirectoryFiles<CR>
     nnoremap <Leader>b :CocCommand fzf-preview.Buffers<CR>
+    nnoremap <Leader>t :CocCommand fzf-preview.BufferTags<CR>
+    nnoremap <Leader>m :CocCommand fzf-preview.Marks<CR>
     "nnoremap <Leader>fc :<CR>
     "nnoremap <Leader>fj :CocCommand fzf-preview.Jumps<CR>
 end
@@ -194,10 +197,7 @@ nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 
 " terminal
-"if has("nvim")
-"  au TermOpen * tnoremap <Esc> <c-\><c-n>
-"  au FileType fzf tunmap <Esc>
-"endif
+tnoremap <Esc> <c-\><c-n>
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
