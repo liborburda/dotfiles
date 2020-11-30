@@ -24,7 +24,7 @@ set backspace=indent,eol,start
 set hidden
 
 " disable auto line breaking
-set wrap
+set nowrap
 
 set undofile
 set history=500
@@ -60,8 +60,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'scrooloose/nerdtree'
     Plug 'jistr/vim-nerdtree-tabs'
     Plug 'mbbill/undotree'
-    Plug 'majutsushi/tagbar'
-    Plug 'dhruvasagar/vim-table-mode'
+    "Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'sheerun/vim-polyglot'
@@ -69,8 +68,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
-"    Plug 'camspiers/animate.vim'
-"    Plug 'camspiers/lens.vim'
+    "Plug 'camspiers/animate.vim'
+    "Plug 'camspiers/lens.vim'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -105,6 +104,9 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 "            \ ]
 
 set completeopt=noinsert,menuone,noselect
+
+" Do not split words by dash (aka. word containing dash will be treated as one word
+set iskeyword+=-
 
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
@@ -160,8 +162,7 @@ let mapleader=" "
 map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFocusToggle<CR>
 set pastetoggle=<F4>
-map <F5> :TagbarToggle<CR>
-map <F6> :UndotreeToggle<CR>
+map <F5> :UndotreeToggle<CR>
 
 " Close buffer without closing split
 nmap <Leader>q :ene<CR>:bd #<CR>
