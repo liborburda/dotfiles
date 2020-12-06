@@ -24,7 +24,7 @@ set backspace=indent,eol,start
 set hidden
 
 " disable auto line breaking
-set wrap
+set nowrap
 
 set undofile
 set history=500
@@ -95,6 +95,9 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 set completeopt=noinsert,menuone,noselect
 
+" Do not split words by dash (aka. word containing dash will be treated as one word
+set iskeyword+=-
+
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -149,8 +152,7 @@ let mapleader=" "
 map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFocusToggle<CR>
 set pastetoggle=<F4>
-map <F5> :TagbarToggle<CR>
-map <F6> :UndotreeToggle<CR>
+map <F5> :UndotreeToggle<CR>
 
 " Close buffer without closing split
 nmap <Leader>q :ene<CR>:bd #<CR>
