@@ -53,15 +53,8 @@ set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 set guicursor=a:blinkon0
 
 call plug#begin('~/.config/nvim/plugged')
-    if executable('fzf')
-        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-        "Plug 'junegunn/fzf.vim'
-    end
-    Plug 'scrooloose/nerdtree'
-    Plug 'jistr/vim-nerdtree-tabs'
+    Plug 'preservim/nerdtree'
     Plug 'mbbill/undotree'
-    Plug 'majutsushi/tagbar'
-    Plug 'dhruvasagar/vim-table-mode'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'sheerun/vim-polyglot'
@@ -69,11 +62,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
-"    Plug 'camspiers/animate.vim'
-"    Plug 'camspiers/lens.vim'
-
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
     Plug 'morhetz/gruvbox'
 call plug#end()
