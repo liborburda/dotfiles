@@ -33,6 +33,9 @@ set undolevels=500
 set number
 set relativenumber
 
+set scrolloff=5
+set signcolumn=yes
+
 set encoding=utf-8
 set fileencoding=utf-8
 

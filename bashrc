@@ -57,3 +57,6 @@ if [ -x "$(command -v helm)" ]; then
   source <(helm completion bash)
 fi
 
+if [ -x "$(command -v eksctl)" ]; then
+  source <(eksctl completion bash)
+fi
