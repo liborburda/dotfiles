@@ -76,6 +76,7 @@ call plug#end()
 set termguicolors
 set background=dark
 let g:gruvbox_termcolors=256
+"let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
 
 " Show trailing whitepace and spaces before a tab
@@ -153,12 +154,8 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 let mapleader=" "
 
 map <F2> :NERDTreeToggle<CR>
-map <F3> :NERDTreeFocusToggle<CR>
 set pastetoggle=<F4>
 map <F5> :UndotreeToggle<CR>
-
-" Close buffer without closing split
-nmap <Leader>q :ene<CR>:bd #<CR>
 
 " fzf mapping
 if executable('fzf')
@@ -166,8 +163,6 @@ if executable('fzf')
     nnoremap <Leader>b :CocCommand fzf-preview.Buffers<CR>
     nnoremap <Leader>t :CocCommand fzf-preview.BufferTags<CR>
     nnoremap <Leader>m :CocCommand fzf-preview.Marks<CR>
-    "nnoremap <Leader>fc :<CR>
-    "nnoremap <Leader>fj :CocCommand fzf-preview.Jumps<CR>
 end
 
 noremap j gj
@@ -235,16 +230,6 @@ inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
 inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
 
 " Fugitive
-function! ToggleGStatus()
-    if buflisted(bufname('.git/index'))
-        bd .git/index
-    else
-        Gstatus
-    endif
-endfunction
-command! ToggleGStatus :call ToggleGStatus()
-
-nnoremap _ :ToggleGStatus<CR>
 nnoremap <Leader>gs  :G<CR>
 nnoremap <Leader>gl  :Gclog!<CR>
 nnoremap <Leader>gd  :Gvdiffsplit!<CR>
