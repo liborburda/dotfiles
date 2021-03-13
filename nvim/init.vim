@@ -160,6 +160,7 @@ map <F5> :UndotreeToggle<CR>
 " fzf mapping
 if executable('fzf')
     nnoremap <Leader>f :CocCommand fzf-preview.DirectoryFiles<CR>
+    nnoremap <Leader>r :CocCommand fzf-preview.MruFiles<CR>
     nnoremap <Leader>b :CocCommand fzf-preview.Buffers<CR>
     nnoremap <Leader>t :CocCommand fzf-preview.BufferTags<CR>
     nnoremap <Leader>m :CocCommand fzf-preview.Marks<CR>
@@ -177,8 +178,6 @@ nnoremap <C-k> <C-w>k
 " indent block and get back to visual mode
 vnoremap < <gv
 vnoremap > >gv
-
-inoremap {<CR> {<CR>}<Esc>ko
 
 " clipboard
 vnoremap <Leader>y "+y
