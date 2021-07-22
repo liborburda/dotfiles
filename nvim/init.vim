@@ -7,18 +7,17 @@ set ignorecase
 set smartcase
 set showmatch
 
-set updatetime=100
+"set updatetime=100
 
 set title
 set nocompatible
 set showmode
 
 set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set shiftround
-set autoindent
 
 set backspace=indent,eol,start
 set hidden
@@ -65,7 +64,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-compe'
 
     Plug 'morhetz/gruvbox'
 call plug#end()
@@ -82,36 +82,6 @@ colorscheme gruvbox
 " Show trailing whitepace and spaces before a tab
 highlight ExtraWhitespace ctermbg=darkred guibg=#880000
 match ExtraWhitespace /\s\+$\| \+\ze\t/
-
-"""""""""""""""""""""""""
-" coc                   "
-"""""""""""""""""""""""""
-"let g:coc_global_extensions = [
-"            \ 'coc-go',
-"            \ 'coc-java',
-"            \ 'coc-java-lombok',
-"            \ 'coc-sh',
-"            \ 'coc-json',
-"            \ 'coc-yaml',
-"            \ 'coc-python',
-"            \ 'coc-clangd'
-"            \ ]
-
-set completeopt=noinsert,menuone,noselect
-
-" Do not split words by dash (aka. word containing dash will be treated as one word
-set iskeyword+=-
-
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <C-n>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<C-n>" :
-            \ coc#refresh()
 
 """""""""""""""""""""""""""""
 " Terminal                  "
@@ -157,15 +127,6 @@ map <F2> :NERDTreeToggle<CR>
 set pastetoggle=<F4>
 map <F5> :UndotreeToggle<CR>
 
-" fzf mapping
-if executable('fzf')
-    nnoremap <Leader>f :CocCommand fzf-preview.DirectoryFiles<CR>
-    nnoremap <Leader>r :CocCommand fzf-preview.MruFiles<CR>
-    nnoremap <Leader>b :CocCommand fzf-preview.Buffers<CR>
-    nnoremap <Leader>t :CocCommand fzf-preview.BufferTags<CR>
-    nnoremap <Leader>m :CocCommand fzf-preview.Marks<CR>
-end
-
 noremap j gj
 noremap k gk
 "noremap <C-m> gt
@@ -186,47 +147,6 @@ nnoremap <Leader>P "+P
 
 " terminal
 tnoremap <Esc> <c-\><c-n>
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <Leader>cd <Plug>(coc-definition)
-nmap <Leader>cy <Plug>(coc-type-definition)
-nmap <Leader>ci <Plug>(coc-implementation)
-nmap <Leader>cr <Plug>(coc-references)
-" Symbol renaming.
-nmap <Leader>cn <Plug>(coc-rename)
-" CocAction
-nmap <Leader>ca :CocAction<CR>
-" Formatting selected code.
-xmap <Leader>cf <Plug>(coc-format-selected)
-nmap <Leader>cf <Plug>(coc-format-selected)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" CocSearch
-nmap <Leader>cs :CocSearch<Space>
-
-function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-nnoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-nnoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
-inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
 
 " Fugitive
 nnoremap <Leader>gs  :G<CR>
@@ -255,4 +175,48 @@ nnoremap <Leader>g-  :Git stash pop<CR>
 nnoremap <Leader>ghs :GitGutterStageHunk<CR>
 nnoremap <Leader>ghu :GitGutterUndoHunk<CR>
 nnoremap <Leader>ghp :GitGutterPreviewHunk<CR>
+
+"""""""""""""""""""""""""""""""
+" Compe                       "
+"""""""""""""""""""""""""""""""
+set completeopt=menuone,noselect
+
+let g:compe = {}
+let g:compe.enabled = v:true
+let g:compe.autocomplete = v:true
+let g:compe.debug = v:false
+let g:compe.min_length = 1
+let g:compe.preselect = 'disable'
+let g:compe.throttle_time = 80
+let g:compe.source_timeout = 200
+let g:compe.incomplete_delay = 400
+let g:compe.max_abbr_width = 100
+let g:compe.max_kind_width = 100
+let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
+let g:compe.source = {}
+let g:compe.source.path = v:true
+let g:compe.source.buffer = v:true
+let g:compe.source.calc = v:true
+let g:compe.source.nvim_lsp = v:true
+let g:compe.source.nvim_lua = v:true
+let g:compe.source.vsnip = v:true
+
+"""""""""""""""""""""""""""""""
+" LSP                         "
+"""""""""""""""""""""""""""""""
+lua << EOF
+require'lspconfig'.gopls.setup{}
+require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.bashls.setup{}
+EOF
+
+"""""""""""""""""""""""""""""""
+" Telescope                   "
+"""""""""""""""""""""""""""""""
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
