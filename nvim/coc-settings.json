@@ -2,7 +2,6 @@
   "coc.preferences.colorSupport": true,
   "suggest.noselect": true,
   "suggest.enablePreselect": false,
-  "python.linting.pylintArgs": ["--enable=F,E,W"],
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "diagnostic.refreshOnInsertMode": true,

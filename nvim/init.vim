@@ -45,7 +45,6 @@ set mouse=
 set clipboard=unnamedplus
 
 set cursorline
-"set cursorcolumn
 set colorcolumn=80
 
 set tags=./tags;/
@@ -65,21 +64,29 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'sheerun/vim-polyglot'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'editorconfig/editorconfig-vim'
-
+    Plug 'hashivim/vim-terraform'
+    Plug 'jiangmiao/auto-pairs'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    "Plug 'neovim/nvim-lspconfig'
-    "Plug 'hrsh7th/nvim-compe'
-
+    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
     Plug 'dense-analysis/ale'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-
     Plug 'morhetz/gruvbox'
 call plug#end()
+
+"""""""""""""""""""""""""""""
+" ALE                       "
+"""""""""""""""""""""""""""""
+let g:ale_disable_lsp = 1
+let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled = 1
+
+"""""""""""""""""""""""""""""
+" Terraform                 "
+"""""""""""""""""""""""""""""
+let g:hcl_align = 1
 
 """""""""""""""""""""""""
 " Theme + colors        "
