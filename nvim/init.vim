@@ -7,8 +7,6 @@ set ignorecase
 set smartcase
 set showmatch
 
-"set updatetime=100
-
 set title
 set nocompatible
 set showmode
@@ -58,16 +56,15 @@ set guicursor=a:blinkon0
 
 call plug#begin('~/.config/nvim/plugged')
     Plug 'preservim/nerdtree'
-    Plug 'mbbill/undotree'
+    "Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'sheerun/vim-polyglot'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'hashivim/vim-terraform'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    Plug 'hoob3rt/lualine.nvim'
+    "Plug 'jiangmiao/auto-pairs'
     Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
     Plug 'dense-analysis/ale'
     Plug 'nvim-lua/popup.nvim'
@@ -98,12 +95,43 @@ let g:gruvbox_termcolors=256
 colorscheme gruvbox
 
 """""""""""""""""""""""""
+" Lualine               "
+"""""""""""""""""""""""""
+lua <<EOF
+require('lualine').setup {
+    options = {
+        icons_enabled = false,
+        theme = 'gruvbox',
+        component_separators = {'', ''},
+        section_separators = {'', ''},
+        disabled_filetypes = {}
+    },
+    sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch'},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+    },
+    tabline = {},
+    extensions = {}
+}
+EOF
+
+"""""""""""""""""""""""""
 " coc                   "
 """""""""""""""""""""""""
 "let g:coc_global_extensions = [
 "            \ 'coc-go',
-"            \ 'coc-java',
-"            \ 'coc-java-lombok',
 "            \ 'coc-sh',
 "            \ 'coc-json',
 "            \ 'coc-yaml',
@@ -129,21 +157,21 @@ inoremap <silent><expr> <C-n>
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nnoremap <silent> [g <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <Leader>cd <Plug>(coc-definition)
-nmap <Leader>cy <Plug>(coc-type-definition)
-nmap <Leader>ci <Plug>(coc-implementation)
-nmap <Leader>cr <Plug>(coc-references)
+nnoremap <Leader>cd <Plug>(coc-definition)
+nnoremap <Leader>cy <Plug>(coc-type-definition)
+nnoremap <Leader>ci <Plug>(coc-implementation)
+nnoremap <Leader>cr <Plug>(coc-references)
 " Symbol renaming.
-nmap <Leader>cn <Plug>(coc-rename)
+nnoremap <Leader>cn <Plug>(coc-rename)
 " CocAction
-nmap <Leader>ca :CocAction<CR>
+nnoremap <Leader>ca :CocAction<CR>
 " Formatting selected code.
-xmap <Leader>cf <Plug>(coc-format-selected)
-nmap <Leader>cf <Plug>(coc-format-selected)
+xnoremap <Leader>cf <Plug>(coc-format-selected)
+nnoremap <Leader>cf <Plug>(coc-format-selected)
 
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
@@ -274,6 +302,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 """""""""""""""""""""""""""""""
 " Misc                        "
 """""""""""""""""""""""""""""""
+" When editing a file, always jump to the last cursor position
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
