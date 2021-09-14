@@ -18,7 +18,17 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 -- individually configure all language servers
-lspconfig.bashls.setup {}
+lspconfig.bashls.setup {
+	cmd = { "bash-language-server", "start" },
+	filetypes = { "sh", "bash", "zsh" },
+}
+
+lspconfig.terraformls.setup {
+	cmd = { "terraform-ls", "serve" },
+	filetypes = { "terraform" },
+}
+
+lspconfig.gopls.setup {}
 lspconfig.pyright.setup {}
 lspconfig.clangd.setup {}
 
