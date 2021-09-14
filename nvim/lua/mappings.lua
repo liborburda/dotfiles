@@ -1,6 +1,3 @@
-vim.api.nvim_set_keymap('n', '<F2>', ':NERDTreeToggle<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<F5>', ':UndotreeToggle<CR>', { noremap = true, silent = true })
-
 -- better movements
 vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = true, silent = true })
@@ -24,3 +21,6 @@ vim.api.nvim_set_keymap('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>', { nor
 vim.api.nvim_set_keymap('n', '<Leader>fb', '<cmd>Telescope buffers<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>', { noremap = true, silent = true })
 
+-- other plugins
+vim.api.nvim_set_keymap('n', '<F2>', ':NERDTreeToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<F5>', ':UndotreeToggle<CR>', { noremap = true, silent = true })
