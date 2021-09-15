@@ -11,21 +11,26 @@ capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
 capabilities.textDocument.completion.completionItem.deprecatedSupport = true
 capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
 capabilities.textDocument.completion.completionItem.tagSupport = {
-	valueSet = { 1 },
+  valueSet = { 1 },
 }
 capabilities.textDocument.completion.completionItem.resolveSupport = {
-	properties = { 'documentation', 'detail', 'additionalTextEdits' },
+  properties = { 'documentation', 'detail', 'additionalTextEdits' },
 }
+
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+	vim.lsp.diagnostic.on_publish_diagnostics,
+	{ virtual_text = true, signs = true, update_in_insert = true }
+)
 
 -- individually configure all language servers
 lspconfig.bashls.setup {
-	cmd = { "bash-language-server", "start" },
-	filetypes = { "sh", "bash", "zsh" },
+  cmd = { "bash-language-server", "start" },
+  filetypes = { "sh", "bash", "zsh" },
 }
 
 lspconfig.terraformls.setup {
-	cmd = { "terraform-ls", "serve" },
-	filetypes = { "terraform" },
+  cmd = { "terraform-ls", "serve" },
+  filetypes = { "terraform" },
 }
 
 lspconfig.gopls.setup {}
@@ -34,29 +39,29 @@ lspconfig.clangd.setup {}
 
 -- setup nvim-cmp for completion
 cmp.setup {
-	mapping = {
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-n>'] = cmp.mapping.select_next_item(),
-		['<C-d>'] = cmp.mapping.scroll_docs(-4),
-		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.close(),
-		['<CR>'] = cmp.mapping.confirm {
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		},
-	},
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+  },
 
-	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'buffer' },
-		{ name = 'path' },
-		-- { name = 'calc' },
-	},
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+    { name = 'path' },
+    -- { name = 'calc' },
+  },
 
-	documentation = {
-		border = "single"
-	},
+  documentation = {
+    border = "single"
+  },
 }
 
 -- bindings for non-completion related LSP features
