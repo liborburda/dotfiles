@@ -5,6 +5,7 @@
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.virtualText": true,
   "languageserver": {
     "terraform": {
       "command": "terraform-ls",

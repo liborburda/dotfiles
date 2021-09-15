@@ -166,7 +166,7 @@ nnoremap <Leader>cy <Plug>(coc-type-definition)
 nnoremap <Leader>ci <Plug>(coc-implementation)
 nnoremap <Leader>cr <Plug>(coc-references)
 " Symbol renaming.
-nnoremap <Leader>cn <Plug>(coc-rename)
+nmap <Leader>rn <Plug>(coc-rename)
 " CocAction
 nnoremap <Leader>ca :CocAction<CR>
 " Formatting selected code.
