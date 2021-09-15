@@ -1,5 +1,6 @@
-local lspconfig = require 'lspconfig'
-local cmp = require 'cmp'
+local lspconfig = require('lspconfig')
+local cmp = require('cmp')
+local lspsaga = require('lspsaga')
 -- local luasnip = require 'luasnip'
 
 -- define capabilities for language servers
