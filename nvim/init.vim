@@ -56,16 +56,18 @@ set guicursor=a:blinkon0
 
 let mapleader = " "
 
+let g:lightline = { 'colorscheme': 'wombat' }
+
 call plug#begin('~/.config/nvim/plugged')
     Plug 'preservim/nerdtree'
-    "Plug 'mbbill/undotree'
+    Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'sheerun/vim-polyglot'
     Plug 'ntpeters/vim-better-whitespace'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'hashivim/vim-terraform'
-    Plug 'hoob3rt/lualine.nvim'
+    Plug 'itchyny/lightline.vim'
     "Plug 'jiangmiao/auto-pairs'
     Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
     Plug 'dense-analysis/ale'
@@ -95,39 +97,6 @@ set background=dark
 let g:gruvbox_termcolors=256
 "let g:gruvbox_contrast_dark="hard"
 colorscheme gruvbox
-
-"""""""""""""""""""""""""
-" Lualine               "
-"""""""""""""""""""""""""
-lua <<EOF
-require('lualine').setup {
-    options = {
-        icons_enabled = false,
-        theme = 'gruvbox',
-        component_separators = {'', ''},
-        section_separators = {'', ''},
-        disabled_filetypes = {}
-    },
-    sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'branch'},
-        lualine_c = {'filename'},
-        lualine_x = {'encoding', 'fileformat', 'filetype'},
-        lualine_y = {'progress'},
-        lualine_z = {'location'}
-    },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {'filename'},
-        lualine_x = {'location'},
-        lualine_y = {},
-        lualine_z = {}
-    },
-    tabline = {},
-    extensions = {}
-}
-EOF
 
 """""""""""""""""""""""""
 " coc                   "
