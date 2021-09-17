@@ -54,6 +54,8 @@ set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 " Disable cursor styling in neovim
 set guicursor=a:blinkon0
 
+let mapleader = " "
+
 call plug#begin('~/.config/nvim/plugged')
     Plug 'preservim/nerdtree'
     "Plug 'mbbill/undotree'
@@ -166,7 +168,7 @@ nnoremap <Leader>cy <Plug>(coc-type-definition)
 nnoremap <Leader>ci <Plug>(coc-implementation)
 nnoremap <Leader>cr <Plug>(coc-references)
 " Symbol renaming.
-nmap <Leader>rn <Plug>(coc-rename)
+nmap <Leader>cn <Plug>(coc-rename)
 " CocAction
 nnoremap <Leader>ca :CocAction<CR>
 " Formatting selected code.
@@ -236,8 +238,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 """""""""""""""""""""""""""""
 " Keyboard mapping          "
 """""""""""""""""""""""""""""
-let mapleader=" "
-
 map <F2> :NERDTreeToggle<CR>
 set pastetoggle=<F4>
 map <F5> :UndotreeToggle<CR>
