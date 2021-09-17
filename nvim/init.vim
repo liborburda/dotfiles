@@ -9,7 +9,7 @@ set showmatch
 
 set title
 set nocompatible
-set showmode
+set noshowmode
 
 set expandtab
 set tabstop=2
