@@ -56,8 +56,6 @@ set guicursor=a:blinkon0
 
 let mapleader = " "
 
-let g:lightline = { 'colorscheme': 'wombat' }
-
 call plug#begin('~/.config/nvim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'mbbill/undotree'
@@ -77,6 +75,21 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'morhetz/gruvbox'
 call plug#end()
 
+
+"""""""""""""""""""""""""""""
+" Lightline                 "
+"""""""""""""""""""""""""""""
+let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'active': {
+        \     'left': [ [ 'mode', 'paste' ],
+        \             [ 'readonly', 'filename', 'gitbranch', 'modified' ] ]
+        \ },
+        \ 'component_function': {
+        \     'gitbranch': 'FugitiveHead'
+        \ },
+        \ }
+
 """""""""""""""""""""""""""""
 " ALE                       "
 """""""""""""""""""""""""""""
@@ -88,6 +101,7 @@ let g:airline#extensions#ale#enabled = 1
 " Terraform                 "
 """""""""""""""""""""""""""""
 let g:hcl_align = 1
+let g:terraform_fmt_on_save = 1
 
 """""""""""""""""""""""""
 " Theme + colors        "
