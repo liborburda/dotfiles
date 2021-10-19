@@ -285,6 +285,9 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 """""""""""""""""""""""""""""""
 " Misc                        "
 """""""""""""""""""""""""""""""
+" Close all buffers except current one
+command BufOnly silent! execute "%bd|e#|bd#"
+
 " When editing a file, always jump to the last cursor position
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
