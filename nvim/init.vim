@@ -39,7 +39,7 @@ set signcolumn=yes
 set encoding=utf-8
 set fileencoding=utf-8
 
-set mouse=
+set mouse=a
 set clipboard=unnamedplus
 
 set cursorline
