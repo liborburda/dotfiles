@@ -39,7 +39,7 @@ set signcolumn=yes
 set encoding=utf-8
 set fileencoding=utf-8
 
-set mouse=a
+set mouse=
 set clipboard=unnamedplus
 
 set cursorline
@@ -57,60 +57,82 @@ set guicursor=a:blinkon0
 let mapleader = " "
 
 call plug#begin('~/.config/nvim/plugged')
-    Plug 'preservim/nerdtree'
+    "Plug 'preservim/nerdtree'
     Plug 'mbbill/undotree'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'ntpeters/vim-better-whitespace'
-    Plug 'editorconfig/editorconfig-vim'
+    "Plug 'sheerun/vim-polyglot'
+    "Plug 'ntpeters/vim-better-whitespace'
+    "Plug 'editorconfig/editorconfig-vim'
     Plug 'hashivim/vim-terraform'
-    Plug 'itchyny/lightline.vim'
+    "Plug 'itchyny/lightline.vim'
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'kyazdani42/nvim-web-devicons'
     "Plug 'jiangmiao/auto-pairs'
     Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-    Plug 'dense-analysis/ale'
+    "Plug 'dense-analysis/ale'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'morhetz/gruvbox'
+    "Plug 'morhetz/gruvbox'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    "Plug 'gruvbox-community/gruvbox'
+    Plug 'Mofiqul/vscode.nvim'
+    Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
+"""""""""""""""""""""""""""""
+" TreeSitter                "
+"""""""""""""""""""""""""""""
+lua require('nvim-treesitter.configs').setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+
+"""""""""""""""""""""""""""""
+" NvimTree                  "
+"""""""""""""""""""""""""""""
+lua require('nvim-tree').setup()
+
+"""""""""""""""""""""""""""""
+" Lualine                   "
+"""""""""""""""""""""""""""""
+lua require('lualine').setup { options = { theme = 'vscode', section_separators = '', component_separators = '' } }
+
+"""""""""""""""""""""""""
+" Theme + colors        "
+"""""""""""""""""""""""""
+"set termguicolors
+"set background=dark
+"let g:gruvbox_termcolors=256
+"let g:gruvbox_contrast_dark="hard"
+let g:vscode_style = "dark"
+set background=dark
+colorscheme vscode
 
 """""""""""""""""""""""""""""
 " Lightline                 "
 """""""""""""""""""""""""""""
-let g:lightline = {
-        \ 'colorscheme': 'wombat',
-        \ 'active': {
-        \     'left': [ [ 'mode', 'paste' ],
-        \             [ 'readonly', 'filename', 'gitbranch', 'modified' ] ]
-        \ },
-        \ 'component_function': {
-        \     'gitbranch': 'FugitiveHead'
-        \ },
-        \ }
-
+"let g:lightline = {
+"        \ 'colorscheme': 'wombat',
+"        \ 'active': {
+"        \     'left': [ [ 'mode', 'paste' ],
+"        \             [ 'readonly', 'filename', 'gitbranch', 'modified' ] ]
+"        \ },
+"        \ 'component_function': {
+"        \     'gitbranch': 'FugitiveHead'
+"        \ },
+"        \ }
+"
 """""""""""""""""""""""""""""
 " ALE                       "
 """""""""""""""""""""""""""""
-let g:ale_disable_lsp = 1
-let g:ale_sign_column_always = 1
-let g:airline#extensions#ale#enabled = 1
+"let g:ale_disable_lsp = 1
+"let g:ale_sign_column_always = 1
+"let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""
 " Terraform                 "
 """""""""""""""""""""""""""""
 let g:hcl_align = 1
 let g:terraform_fmt_on_save = 1
-
-"""""""""""""""""""""""""
-" Theme + colors        "
-"""""""""""""""""""""""""
-"set termguicolors
-set background=dark
-let g:gruvbox_termcolors=256
-"let g:gruvbox_contrast_dark="hard"
-colorscheme gruvbox
 
 """""""""""""""""""""""""
 " coc                   "
@@ -216,12 +238,12 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 """""""""""""""""""""""""""""
 " EditorConfig              "
 """""""""""""""""""""""""""""
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+"let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 """""""""""""""""""""""""""""
 " Keyboard mapping          "
 """""""""""""""""""""""""""""
-map <F2> :NERDTreeToggle<CR>
+map <F2> :NvimTreeToggle<CR>
 set pastetoggle=<F4>
 map <F5> :UndotreeToggle<CR>
 

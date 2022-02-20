@@ -45,10 +45,6 @@ mt() {
   mosh $1 -- tmux new -ADs 0
 }
 
-alias mnt='udisksctl mount -b'
-alias umnt='udisksctl unmount -b'
-alias cal='cal -y -m -w'
-
 if [ -x "$(command -v kubectl)" ]; then
   source <(kubectl completion bash)
 fi
@@ -60,3 +56,33 @@ fi
 if [ -x "$(command -v eksctl)" ]; then
   source <(eksctl completion bash)
 fi
+
+alias ga='git add'
+alias gaa='git add --all'
+
+alias gco='git checkout'
+alias gcH='git checkout HEAD --'
+alias gcoom='git checkout origin/master --'
+
+alias gb='git branch'
+alias gbd='git branch -d'
+alias gbm='git branch -m'
+
+alias gc='git commit -m'
+alias gca='git commit --amend --no-edit'
+
+alias gl='git log --oneline'
+
+alias gpl='git pull --rebase --autostash'
+
+alias gph='git push origin HEAD'
+alias gphf='git push origin HEAD --force-with-lease'
+
+alias gd='git diff'
+alias gds='git diff --staged'
+
+alias gfo='git fetch origin'
+
+alias gr='git rebase'
+alias gri='git rebase -i'
+
