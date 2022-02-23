@@ -34,6 +34,9 @@ require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
@@ -246,7 +249,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'terraformls' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -256,9 +259,9 @@ end
 
 -- Example custom server
 -- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
+--local runtime_path = vim.split(package.path, ';')
+--table.insert(runtime_path, 'lua/?.lua')
+--table.insert(runtime_path, 'lua/?/init.lua')
 
 lspconfig.sumneko_lua.setup {
   on_attach = on_attach,
@@ -331,14 +334,26 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'buffer' },
   },
 }
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
+})
 
 -- Keyboard mapping
-vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'g', 'gk', { noremap = true, silent = true })
---noremap <C-m> gt
---noremap <C-n> gT
 vim.api.nvim_set_keymap('n', '<c-l>', '<c-w>l', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<c-h>', '<c-w>h', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<c-j>', '<c-w>j', { noremap = true, silent = true })
@@ -377,19 +392,15 @@ vim.api.nvim_set_keymap('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = 
 --nnoremap <Leader>g+  :Git stash push<CR>
 --nnoremap <Leader>g-  :Git stash pop<CR>
 
---""""""""""""""""""""""""""""""
--- Git-gutter                  "
---""""""""""""""""""""""""""""""
---nnoremap <Leader>ghs :GitGutterStageHunk<CR>
---nnoremap <Leader>ghu :GitGutterUndoHunk<CR>
---nnoremap <Leader>ghp :GitGutterPreviewHunk<CR>
+-- Git-gutter
+vim.api.nvim_set_keymap('n', '<leader>ghs', '<cmd>GitGutterStageHunk<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ghu', '<cmd>GitGutterUndoHunk<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ghp', '<cmd>GitGutterPreviewHunk<cr>', { noremap = true, silent = true })
 
---""""""""""""""""""""""""""""""
--- Telescope                   "
---""""""""""""""""""""""""""""""
---nnoremap <leader>ff <cmd>Telescope find_files<cr>
---nnoremap <leader>fg <cmd>Telescope live_grep<cr>
---nnoremap <leader>fb <cmd>Telescope buffers<cr>
---nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+-- Telescope
+vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { noremap = true, silent = true })
 
 -- vim: ts=2 sts=2 sw=2 et
