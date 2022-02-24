@@ -38,20 +38,25 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   -- Nvim-tree
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
+  -- Terraform
+  use 'hashivim/vim-terraform'
 end)
 
 --Set highlight on search
 vim.o.hlsearch = true
+vim.opt.showmatch = true
 
 --Make line numbers default
 vim.wo.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
+vim.opt.colorcolumn = "80"
 
 --Set cursor shape to block; no blinking
 vim.cmd [[set guicursor=a:blinkon0]]
@@ -68,9 +73,15 @@ vim.opt.undofile = true
 --Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
+vim.opt.expandtab = true            -- Use spaces instead of tabs
+vim.opt.shiftwidth = 4              -- Shift 4 spaces when tab
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.smartindent = true
 
 --Decrease update time
 vim.o.updatetime = 250
+vim.opt.lazyredraw = true           -- Faster scrolling
 vim.wo.signcolumn = 'yes'
 
 --Enable background buffers
@@ -79,7 +90,6 @@ vim.opt.hidden = true
 --Keep last 5 lines visible at the end of buffer
 vim.opt.scrolloff = 5
 
-
 --Set colorscheme
 vim.o.termguicolors = true
 vim.g.vscode_style = "dark"
@@ -87,6 +97,9 @@ vim.cmd [[colorscheme vscode]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+
+-- Don't auto commenting new lines
+vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
 --Set statusbar
 require('lualine').setup {
@@ -308,10 +321,10 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    --['<CR>'] = cmp.mapping.confirm {
+    --  behavior = cmp.ConfirmBehavior.Replace,
+    --  select = true,
+    --},
     ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -335,6 +348,8 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'path' },
+    { name = 'nvim_lsp_signature_help' },
   },
 }
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
