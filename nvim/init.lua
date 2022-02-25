@@ -152,6 +152,10 @@ require('gitsigns').setup {
   },
 }
 
+-- TerraformFmt
+vim.g.hcl_align = 1
+vim.g.terraform_fmt_on_save = 1
+
 -- Telescope
 require('telescope').setup {
   defaults = {
