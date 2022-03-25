@@ -42,7 +42,7 @@ require('packer').startup(function(use)
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   -- Nvim-tree
-  use 'kyazdani42/nvim-web-devicons'
+  --use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
   -- Terraform
   use 'hashivim/vim-terraform'
@@ -354,7 +354,13 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'buffer' },
+    { name = 'buffer',
+      option = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
+      },
+    },
     { name = 'path' },
     { name = 'nvim_lsp_signature_help' },
   },
