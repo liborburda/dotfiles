@@ -1,3 +1,9 @@
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC | quit
+endif
+
 syntax on
 filetype plugin on
 
@@ -12,9 +18,9 @@ set nocompatible
 set noshowmode
 
 set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set shiftround
 set autoindent
 set smartindent
@@ -37,7 +43,6 @@ set scrolloff=5
 set signcolumn=yes
 
 set encoding=utf-8
-set fileencoding=utf-8
 
 set mouse=
 set clipboard=unnamedplus
@@ -57,28 +62,28 @@ set guicursor=a:blinkon0
 let mapleader = " "
 
 call plug#begin('~/.config/nvim/plugged')
-    "Plug 'preservim/nerdtree'
-    Plug 'mbbill/undotree'
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
-    "Plug 'sheerun/vim-polyglot'
-    "Plug 'ntpeters/vim-better-whitespace'
-    "Plug 'editorconfig/editorconfig-vim'
-    Plug 'hashivim/vim-terraform'
-    "Plug 'itchyny/lightline.vim'
-    Plug 'nvim-lualine/lualine.nvim'
-    Plug 'kyazdani42/nvim-web-devicons'
-    "Plug 'jiangmiao/auto-pairs'
-    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-    "Plug 'dense-analysis/ale'
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    "Plug 'morhetz/gruvbox'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    "Plug 'gruvbox-community/gruvbox'
-    Plug 'Mofiqul/vscode.nvim'
-    Plug 'kyazdani42/nvim-tree.lua'
+"Plug 'preservim/nerdtree'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+"Plug 'sheerun/vim-polyglot'
+"Plug 'ntpeters/vim-better-whitespace'
+"Plug 'editorconfig/editorconfig-vim'
+Plug 'hashivim/vim-terraform'
+"Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+"Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+"Plug 'dense-analysis/ale'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+"Plug 'morhetz/gruvbox'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"Plug 'gruvbox-community/gruvbox'
+Plug 'Mofiqul/vscode.nvim'
+Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
 """""""""""""""""""""""""""""
@@ -108,20 +113,6 @@ set background=dark
 colorscheme vscode
 
 """""""""""""""""""""""""""""
-" Lightline                 "
-"""""""""""""""""""""""""""""
-"let g:lightline = {
-"        \ 'colorscheme': 'wombat',
-"        \ 'active': {
-"        \     'left': [ [ 'mode', 'paste' ],
-"        \             [ 'readonly', 'filename', 'gitbranch', 'modified' ] ]
-"        \ },
-"        \ 'component_function': {
-"        \     'gitbranch': 'FugitiveHead'
-"        \ },
-"        \ }
-"
-"""""""""""""""""""""""""""""
 " ALE                       "
 """""""""""""""""""""""""""""
 "let g:ale_disable_lsp = 1
@@ -137,15 +128,6 @@ let g:terraform_fmt_on_save = 1
 """""""""""""""""""""""""
 " coc                   "
 """""""""""""""""""""""""
-"let g:coc_global_extensions = [
-"            \ 'coc-go',
-"            \ 'coc-sh',
-"            \ 'coc-json',
-"            \ 'coc-yaml',
-"            \ 'coc-python',
-"            \ 'coc-clangd'
-"            \ ]
-
 set completeopt=noinsert,menuone,noselect
 
 " Do not split words by dash (aka. word containing dash will be treated as one word
@@ -236,11 +218,6 @@ tnoremap <silent><F8> <C-\><C-n>:call TermToggle(12)<CR>
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
 """""""""""""""""""""""""""""
-" EditorConfig              "
-"""""""""""""""""""""""""""""
-"let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-
-"""""""""""""""""""""""""""""
 " Keyboard mapping          "
 """""""""""""""""""""""""""""
 map <F2> :NvimTreeToggle<CR>
@@ -312,6 +289,6 @@ command BufOnly silent! execute "%bd|e#|bd#"
 
 " When editing a file, always jump to the last cursor position
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
 
