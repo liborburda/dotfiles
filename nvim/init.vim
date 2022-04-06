@@ -276,6 +276,7 @@ nnoremap <Leader>ghp :GitGutterPreviewHunk<CR>
 """""""""""""""""""""""""""""""
 " Telescope                   "
 """""""""""""""""""""""""""""""
+nnoremap <leader><space> <cmd>Telescope oldfiles<cr>
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
