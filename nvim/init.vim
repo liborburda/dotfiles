@@ -52,7 +52,7 @@ set colorcolumn=80
 
 set tags=./tags;/
 
-set laststatus=2
+set laststatus=3
 
 set listchars=tab:>-,trail:.,precedes:<,extends:>,eol:$
 
@@ -89,12 +89,45 @@ call plug#end()
 """""""""""""""""""""""""""""
 " TreeSitter                "
 """""""""""""""""""""""""""""
-lua require('nvim-treesitter.configs').setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+lua <<EOT
+require('nvim-treesitter.configs').setup {
+    highlight = {
+        enable = true
+    },
+    incremental_selection = {
+        enable = true
+    },
+    textobjects = {
+        enable = true
+    },
+    file_ignore_patterns = {
+        ".git/", ".cache", "%.o", "%.a", "%.out", "%.class",
+		"%.pdf", "%.mkv", "%.mp4", "%.zip", ".terraform"
+    },
+}
+EOT
 
 """""""""""""""""""""""""""""
 " NvimTree                  "
 """""""""""""""""""""""""""""
-lua require('nvim-tree').setup()
+let g:nvim_tree_show_icons = {
+    \ 'git': 0,
+    \ 'folders': 1,
+    \ 'files': 0,
+    \ 'folder_arrows': 0,
+    \ }
+lua <<EOT
+require('nvim-tree').setup {
+    git = {
+        enable = false
+    },
+    renderer = {
+        indent_markers = {
+            enable = true
+        }
+    },
+}
+EOT
 
 """""""""""""""""""""""""""""
 " Lualine                   "
