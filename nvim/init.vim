@@ -132,7 +132,16 @@ EOT
 """""""""""""""""""""""""""""
 " Lualine                   "
 """""""""""""""""""""""""""""
-lua require('lualine').setup { options = { theme = 'vscode', section_separators = '', component_separators = '' } }
+lua <<EOT
+require('lualine').setup {
+    options = {
+        theme = 'vscode',
+        section_separators = '',
+        component_separators = '',
+        globalstatus = true
+    }
+}
+EOT
 
 """""""""""""""""""""""""
 " Theme + colors        "
