@@ -32,6 +32,7 @@ require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter'
   -- Additional textobjects for treesitter
   use 'nvim-treesitter/nvim-treesitter-textobjects'
+  use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-buffer'
@@ -106,7 +107,7 @@ require('lualine').setup {
   options = {
     icons_enabled = false,
     theme = 'vscode',
-    component_separators = '|',
+    component_separators = '',
     section_separators = '',
   },
 }
@@ -133,8 +134,18 @@ vim.cmd [[
 
 -- Nvim-tree
 require('nvim-tree').setup {
-  git = { enable = false },
-  view = { width = 40, signcolumnt = "no" },
+  git = {
+    enable = false
+  },
+  view = {
+    width = 40,
+    signcolumn = "no"
+  },
+  renderer = {
+    indent_markers = {
+      enable = true
+    }
+  },
 }
 vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>NvimTreeToggle<CR>]], { noremap = true, silent = true })
 
@@ -269,8 +280,11 @@ vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { 
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
 
+-- LSP Install
+require("nvim-lsp-installer").setup()
+
 -- LSP settings
-local lspconfig = require 'lspconfig'
+local lspconfig = require('lspconfig')
 local on_attach = function(_, bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -294,7 +308,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { 'clangd', 'jedi_language_server', 'terraformls', 'ansiblels' }
+local servers = { 'clangd', 'pyright', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
@@ -302,53 +316,20 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- Example custom server
--- Make runtime files discoverable to the server
---local runtime_path = vim.split(package.path, ';')
---table.insert(runtime_path, 'lua/?.lua')
---table.insert(runtime_path, 'lua/?/init.lua')
-
---lspconfig.sumneko_lua.setup {
---  on_attach = on_attach,
---  capabilities = capabilities,
---  settings = {
---    Lua = {
---      runtime = {
---        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
---        version = 'LuaJIT',
---        -- Setup your lua path
---        path = runtime_path,
---      },
---      diagnostics = {
---        -- Get the language server to recognize the `vim` global
---        globals = { 'vim' },
---      },
---      workspace = {
---        -- Make the server aware of Neovim runtime files
---        library = vim.api.nvim_get_runtime_file('', true),
---      },
---      -- Do not send telemetry data containing a randomized but unique identifier
---      telemetry = {
---        enable = false,
---      },
---    },
---  },
---}
-
 -- luasnip setup
 local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
+  mapping = cmp.mapping.preset.insert({
     ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -357,26 +338,26 @@ cmp.setup {
     --  behavior = cmp.ConfirmBehavior.Replace,
     --  select = true,
     --},
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end,
-  },
-  sources = {
+    --['<Tab>'] = function(fallback)
+    --  if cmp.visible() then
+    --    cmp.select_next_item()
+    --  elseif luasnip.expand_or_jumpable() then
+    --    luasnip.expand_or_jump()
+    --  else
+    --    fallback()
+    --  end
+    --end,
+    --['<S-Tab>'] = function(fallback)
+    --  if cmp.visible() then
+    --    cmp.select_prev_item()
+    --  elseif luasnip.jumpable(-1) then
+    --    luasnip.jump(-1)
+    --  else
+    --    fallback()
+    --  end
+    --end,
+  }),
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer',
@@ -388,10 +369,12 @@ cmp.setup {
     },
     { name = 'path' },
     { name = 'nvim_lsp_signature_help' },
-  },
-}
+  }),
+})
+
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer' }
   }
@@ -399,6 +382,7 @@ cmp.setup.cmdline('/', {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
