@@ -47,6 +47,8 @@ require('packer').startup(function(use)
   use 'kyazdani42/nvim-tree.lua'
   -- Terraform
   use 'hashivim/vim-terraform'
+
+  use 'catppuccin/nvim'
 end)
 
 --Set highlight on search
@@ -92,9 +94,12 @@ vim.opt.hidden = true
 vim.opt.scrolloff = 5
 
 --Set colorscheme
-vim.o.termguicolors = true
-vim.g.vscode_style = "dark"
-vim.cmd [[colorscheme vscode]]
+--vim.o.termguicolors = true
+--vim.g.vscode_style = "dark"
+--vim.cmd [[colorscheme vscode]]
+vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+require("catppuccin").setup()
+vim.cmd [[colorscheme catppuccin]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -106,7 +111,7 @@ vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'vscode',
+    theme = 'auto',
     component_separators = '',
     section_separators = '',
   },
