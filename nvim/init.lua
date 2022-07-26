@@ -140,16 +140,21 @@ vim.cmd [[
 -- Nvim-tree
 require('nvim-tree').setup {
   git = {
-    enable = false
+    enable = false,
   },
   view = {
     width = 40,
-    signcolumn = "no"
+    signcolumn = "no",
   },
   renderer = {
     indent_markers = {
-      enable = true
-    }
+      enable = true,
+    },
+    icons = {
+      show = {
+        folder_arrow = false,
+      },
+    },
   },
 }
 vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>NvimTreeToggle<CR>]], { noremap = true, silent = true })
