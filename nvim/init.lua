@@ -93,6 +93,9 @@ vim.opt.hidden = true
 --Keep last 5 lines visible at the end of buffer
 vim.opt.scrolloff = 5
 
+--Use global status line
+vim.opt.laststatus = 3
+
 --Set colorscheme
 --vim.o.termguicolors = true
 --vim.g.vscode_style = "dark"
