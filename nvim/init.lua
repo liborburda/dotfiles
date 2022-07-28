@@ -13,42 +13,43 @@ vim.cmd [[
 ]]
 
 require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- Package manager
-  use 'tpope/vim-fugitive' -- Git commands in nvim
+  use { 'wbthomason/packer.nvim' } -- Package manager
+  use { 'tpope/vim-fugitive' } -- Git commands in nvim
   --use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   --use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   --use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   --use 'mjlbach/onedark.nvim' -- Theme inspired by Atom
-  use 'Mofiqul/vscode.nvim'
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use { 'Mofiqul/vscode.nvim' }
+  use { 'nvim-lualine/lualine.nvim' } -- Fancier statusline
   -- Add indentation guides even on blank lines
-  use 'lukas-reineke/indent-blankline.nvim'
+  use { 'lukas-reineke/indent-blankline.nvim' }
   -- Add git related info in the signs columns and popups
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use 'nvim-treesitter/nvim-treesitter'
+  use { 'nvim-treesitter/nvim-treesitter' }
   -- Additional textobjects for treesitter
-  use 'nvim-treesitter/nvim-treesitter-textobjects'
-  use 'williamboman/nvim-lsp-installer'
-  use 'neovim/nvim-lspconfig' -- Collection of configurations for built-in LSP client
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lsp-signature-help'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use { 'williamboman/mason.nvim' }
+  use { 'williamboman/mason-lspconfig.nvim' }
+  use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
+  use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
+  use { 'hrsh7th/cmp-buffer' }
+  use { 'hrsh7th/cmp-path' }
+  use { 'hrsh7th/cmp-cmdline' }
+  use { 'hrsh7th/cmp-nvim-lsp' }
+  use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+  -- use { 'saadparwaiz1/cmp_luasnip' }
+  -- use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
   -- Nvim-tree
   --use 'kyazdani42/nvim-web-devicons'
-  use 'kyazdani42/nvim-tree.lua'
+  use { 'kyazdani42/nvim-tree.lua' }
   -- Terraform
-  use 'hashivim/vim-terraform'
+  use { 'hashivim/vim-terraform' }
 
-  use 'catppuccin/nvim'
+  use { 'catppuccin/nvim' }
 end)
 
 --Set highlight on search
@@ -294,7 +295,18 @@ vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { 
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
 
 -- LSP Install
-require("nvim-lsp-installer").setup()
+-- require("nvim-lsp-installer").setup()
+
+-- Mason (replacement of nvim-lsp-installer
+require("mason").setup {
+    ui = {
+        icons = {
+            package_installed = "✓"
+        }
+    }
+}
+
+require("mason-lspconfig").setup()
 
 -- LSP settings
 local lspconfig = require('lspconfig')
@@ -330,16 +342,16 @@ for _, lsp in ipairs(servers) do
 end
 
 -- luasnip setup
-local luasnip = require 'luasnip'
+-- local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
+  -- snippet = {
+  --   expand = function(args)
+  --     luasnip.lsp_expand(args.body)
+  --   end,
+  -- },
   mapping = cmp.mapping.preset.insert({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -372,7 +384,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    -- { name = 'luasnip' },
     { name = 'buffer',
       option = {
         get_bufnrs = function()
