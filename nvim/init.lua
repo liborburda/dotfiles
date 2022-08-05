@@ -21,8 +21,6 @@ require('packer').startup(function(use)
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  --use 'mjlbach/onedark.nvim' -- Theme inspired by Atom
-  use { 'Mofiqul/vscode.nvim' }
   use { 'nvim-lualine/lualine.nvim' } -- Fancier statusline
   -- Add indentation guides even on blank lines
   use { 'lukas-reineke/indent-blankline.nvim' }
@@ -35,6 +33,8 @@ require('packer').startup(function(use)
   use { 'williamboman/mason.nvim' }
   use { 'williamboman/mason-lspconfig.nvim' }
   use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
+  --use { 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
+
   use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-path' }
@@ -50,6 +50,8 @@ require('packer').startup(function(use)
   use { 'hashivim/vim-terraform' }
 
   use { 'catppuccin/nvim' }
+
+  use { 'ntpeters/vim-better-whitespace' }
 end)
 
 --Set highlight on search
@@ -81,7 +83,7 @@ vim.opt.expandtab = true            -- Use spaces instead of tabs
 vim.opt.shiftwidth = 2              -- Shift 4 spaces when tab
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
---vim.opt.smartindent = true
+vim.opt.smartindent = true
 
 --Decrease update time
 vim.o.updatetime = 250
@@ -294,10 +296,38 @@ vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { 
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
 
--- LSP Install
--- require("nvim-lsp-installer").setup()
+-- null-ls
+-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- require("null-ls").setup({
+--   sources = {
+--     require("null-ls").builtins.formatting.black
+--   },
+--   -- you can reuse a shared lspconfig on_attach callback here
+--   on_attach = function(client, bufnr)
+--     if client.supports_method("textDocument/formatting") then
+--       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+--       vim.api.nvim_create_autocmd("BufWritePre", {
+--         group = augroup,
+--         buffer = bufnr,
+--         callback = function()
+--           -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+--           vim.lsp.buf.formatting_sync()
+--         end,
+--       })
+--     end
+--   end,
+-- })
+-- 
+-- local callback = function()
+--     vim.lsp.buf.format({
+--         bufnr = bufnr,
+--         filter = function(client)
+--             return client.name == "null-ls"
+--         end
+--     })
+-- end,
 
--- Mason (replacement of nvim-lsp-installer
+-- Mason (replacement of nvim-lsp-installer)
 require("mason").setup {
     ui = {
         icons = {
@@ -333,7 +363,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Enable the following language servers
-local servers = { 'clangd', 'pyright', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
+local servers = { 'clangd', 'pylsp', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
