@@ -33,7 +33,10 @@ require('packer').startup(function(use)
   use { 'williamboman/mason.nvim' }
   use { 'williamboman/mason-lspconfig.nvim' }
   use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
-  --use { 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
+  -- use { 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
+
+  -- Coc.nvim
+  -- use { 'neoclide/coc.nvim', branch = 'release' }
 
   use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
   use { 'hrsh7th/cmp-buffer' }
@@ -108,8 +111,23 @@ vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 require("catppuccin").setup()
 vim.cmd [[colorscheme catppuccin]]
 
+-- Coc.nvim
+-- vim.cmd [[
+-- " use <tab> for trigger completion and navigate to the next complete item
+-- function! CheckBackspace() abort
+--   let col = col('.') - 1
+--   return !col || getline('.')[col - 1]  =~# '\s'
+-- endfunction
+--
+-- inoremap <silent><expr> <C-n>
+--       \ coc#pum#visible() ? coc#pum#next(1) :
+--       \ CheckBackspace() ? "\<C-n>" :
+--       \ coc#refresh()
+-- ]]
+
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+-- vim.o.completeopt = 'noinsert,menuone,noselect' -- For Coc.nvim
+vim.o.completeopt = 'menuone,noselect' -- For nvim-cmp
 
 -- Don't auto commenting new lines
 vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
@@ -123,9 +141,6 @@ require('lualine').setup {
     section_separators = '',
   },
 }
-
---Enable Comment.nvim
---require('Comment').setup()
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -318,7 +333,7 @@ vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<
 --     end
 --   end,
 -- })
--- 
+--
 -- local callback = function()
 --     vim.lsp.buf.format({
 --         bufnr = bufnr,
@@ -372,9 +387,9 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- luasnip setup
+-- -- luasnip setup
 -- local luasnip = require 'luasnip'
-
+--
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup({
@@ -484,16 +499,5 @@ vim.api.nvim_set_keymap('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = 
 --nnoremap <Leader>gQ  :Gwq!<CR>
 --nnoremap <Leader>g+  :Git stash push<CR>
 --nnoremap <Leader>g-  :Git stash pop<CR>
-
--- Git-gutter
-vim.api.nvim_set_keymap('n', '<leader>ghs', '<cmd>GitGutterStageHunk<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ghu', '<cmd>GitGutterUndoHunk<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ghp', '<cmd>GitGutterPreviewHunk<cr>', { noremap = true, silent = true })
-
--- Telescope
---vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { noremap = true, silent = true })
 
 -- vim: ts=2 sts=2 sw=2 et
