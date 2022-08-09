@@ -16,39 +16,50 @@ require('packer').startup(function(use)
   use { 'wbthomason/packer.nvim' } -- Package manager
   use { 'tpope/vim-fugitive' } -- Git commands in nvim
   --use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
-  --use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   --use 'ludovicchabant/vim-gutentags' -- Automatic tags management
+
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+  -- Lualine
   use { 'nvim-lualine/lualine.nvim' } -- Fancier statusline
+
   -- Add indentation guides even on blank lines
   use { 'lukas-reineke/indent-blankline.nvim' }
+
   -- Add git related info in the signs columns and popups
   use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+
+  -- Treesitter
   -- Highlight, edit, and navigate code using a fast incremental parsing library
   use { 'nvim-treesitter/nvim-treesitter' }
   -- Additional textobjects for treesitter
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
-  use { 'williamboman/mason.nvim' }
-  use { 'williamboman/mason-lspconfig.nvim' }
-  use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
+
+  -- Mason
+  -- use { 'williamboman/mason.nvim' }
+  -- use { 'williamboman/mason-lspconfig.nvim' }
+  -- use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
   -- use { 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
 
-  -- Coc.nvim
-  -- use { 'neoclide/coc.nvim', branch = 'release' }
-
-  use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
-  use { 'hrsh7th/cmp-buffer' }
-  use { 'hrsh7th/cmp-path' }
-  use { 'hrsh7th/cmp-cmdline' }
-  use { 'hrsh7th/cmp-nvim-lsp' }
-  use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
+  -- LSP
+  -- use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
+  -- use { 'hrsh7th/cmp-buffer' }
+  -- use { 'hrsh7th/cmp-path' }
+  -- use { 'hrsh7th/cmp-cmdline' }
+  -- use { 'hrsh7th/cmp-nvim-lsp' }
+  -- use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
   -- use { 'saadparwaiz1/cmp_luasnip' }
   -- use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
+
+  -- Coc.nvim
+  use { 'neoclide/coc.nvim', branch = 'release' }
+
   -- Nvim-tree
   --use 'kyazdani42/nvim-web-devicons'
   use { 'kyazdani42/nvim-tree.lua' }
+
   -- Terraform
   use { 'hashivim/vim-terraform' }
 
@@ -112,22 +123,47 @@ require("catppuccin").setup()
 vim.cmd [[colorscheme catppuccin]]
 
 -- Coc.nvim
--- vim.cmd [[
--- " use <tab> for trigger completion and navigate to the next complete item
--- function! CheckBackspace() abort
---   let col = col('.') - 1
---   return !col || getline('.')[col - 1]  =~# '\s'
--- endfunction
---
--- inoremap <silent><expr> <C-n>
---       \ coc#pum#visible() ? coc#pum#next(1) :
---       \ CheckBackspace() ? "\<C-n>" :
---       \ coc#refresh()
--- ]]
+vim.cmd [[
+" use <tab> for trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <C-n>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<C-n>" :
+      \ coc#refresh()
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+]]
 
 -- Set completeopt to have a better completion experience
--- vim.o.completeopt = 'noinsert,menuone,noselect' -- For Coc.nvim
-vim.o.completeopt = 'menuone,noselect' -- For nvim-cmp
+vim.o.completeopt = 'noinsert,menuone,noselect' -- For Coc.nvim
+-- vim.o.completeopt = 'menuone,noselect' -- For nvim-cmp
 
 -- Don't auto commenting new lines
 vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
@@ -307,10 +343,10 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Diagnostic keymaps
-vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
 
 -- null-ls
 -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -344,122 +380,122 @@ vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<
 -- end,
 
 -- Mason (replacement of nvim-lsp-installer)
-require("mason").setup {
-    ui = {
-        icons = {
-            package_installed = "✓"
-        }
-    }
-}
-
-require("mason-lspconfig").setup()
-
--- LSP settings
-local lspconfig = require('lspconfig')
-local on_attach = function(_, bufnr)
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-end
-
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
--- Enable the following language servers
-local servers = { 'clangd', 'pylsp', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
-
--- -- luasnip setup
--- local luasnip = require 'luasnip'
+-- require("mason").setup {
+--     ui = {
+--         icons = {
+--             package_installed = "✓"
+--         }
+--     }
+-- }
 --
--- nvim-cmp setup
-local cmp = require 'cmp'
-cmp.setup({
-  -- snippet = {
-  --   expand = function(args)
-  --     luasnip.lsp_expand(args.body)
-  --   end,
-  -- },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    --['<CR>'] = cmp.mapping.confirm {
-    --  behavior = cmp.ConfirmBehavior.Replace,
-    --  select = true,
-    --},
-    --['<Tab>'] = function(fallback)
-    --  if cmp.visible() then
-    --    cmp.select_next_item()
-    --  elseif luasnip.expand_or_jumpable() then
-    --    luasnip.expand_or_jump()
-    --  else
-    --    fallback()
-    --  end
-    --end,
-    --['<S-Tab>'] = function(fallback)
-    --  if cmp.visible() then
-    --    cmp.select_prev_item()
-    --  elseif luasnip.jumpable(-1) then
-    --    luasnip.jump(-1)
-    --  else
-    --    fallback()
-    --  end
-    --end,
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    -- { name = 'luasnip' },
-    { name = 'buffer',
-      option = {
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end
-      },
-    },
-    { name = 'path' },
-    { name = 'nvim_lsp_signature_help' },
-  }),
-})
-
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
+-- require("mason-lspconfig").setup()
+--
+-- -- LSP settings
+-- local lspconfig = require('lspconfig')
+-- local on_attach = function(_, bufnr)
+--   local opts = { noremap = true, silent = true }
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+--   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+--   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+-- end
+--
+-- -- nvim-cmp supports additional completion capabilities
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+--
+-- -- Enable the following language servers
+-- local servers = { 'clangd', 'pylsp', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--   }
+-- end
+--
+-- -- -- luasnip setup
+-- -- local luasnip = require 'luasnip'
+-- --
+-- -- nvim-cmp setup
+-- local cmp = require 'cmp'
+-- cmp.setup({
+--   -- snippet = {
+--   --   expand = function(args)
+--   --     luasnip.lsp_expand(args.body)
+--   --   end,
+--   -- },
+--   mapping = cmp.mapping.preset.insert({
+--     ['<C-n>'] = cmp.mapping.select_next_item(),
+--     ['<C-p>'] = cmp.mapping.select_prev_item(),
+--     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+--     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--     ['<C-Space>'] = cmp.mapping.complete(),
+--     ['<C-e>'] = cmp.mapping.close(),
+--     --['<CR>'] = cmp.mapping.confirm {
+--     --  behavior = cmp.ConfirmBehavior.Replace,
+--     --  select = true,
+--     --},
+--     --['<Tab>'] = function(fallback)
+--     --  if cmp.visible() then
+--     --    cmp.select_next_item()
+--     --  elseif luasnip.expand_or_jumpable() then
+--     --    luasnip.expand_or_jump()
+--     --  else
+--     --    fallback()
+--     --  end
+--     --end,
+--     --['<S-Tab>'] = function(fallback)
+--     --  if cmp.visible() then
+--     --    cmp.select_prev_item()
+--     --  elseif luasnip.jumpable(-1) then
+--     --    luasnip.jump(-1)
+--     --  else
+--     --    fallback()
+--     --  end
+--     --end,
+--   }),
+--   sources = cmp.config.sources({
+--     { name = 'nvim_lsp' },
+--     -- { name = 'luasnip' },
+--     { name = 'buffer',
+--       option = {
+--         get_bufnrs = function()
+--           return vim.api.nvim_list_bufs()
+--         end
+--       },
+--     },
+--     { name = 'path' },
+--     { name = 'nvim_lsp_signature_help' },
+--   }),
+-- })
+--
+-- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline('/', {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = {
+--     { name = 'buffer' }
+--   }
+-- })
+--
+-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   }, {
+--     { name = 'cmdline' }
+--   })
+-- })
 
 -- Keyboard mapping
 vim.api.nvim_set_keymap('n', '<c-l>', '<c-w>l', { noremap = true, silent = true })
