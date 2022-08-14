@@ -158,11 +158,14 @@ function! ShowDocumentation()
 endfunction
 
 " Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>cr <Plug>(coc-rename)
+
+" Code action
+nmap <leader>ca  <Plug>(coc-codeaction)
 ]]
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'noinsert,menuone,noselect' -- For Coc.nvim
+vim.o.completeopt = 'menuone,noselect' -- For Coc.nvim
 -- vim.o.completeopt = 'menuone,noselect' -- For nvim-cmp
 
 -- Don't auto commenting new lines
