@@ -82,7 +82,7 @@ vim.opt.colorcolumn = "80"
 vim.cmd [[set guicursor=a:blinkon0]]
 
 --Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse = ''
 
 --Enable break indent
 vim.o.breakindent = true
@@ -95,9 +95,9 @@ vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.opt.expandtab = true            -- Use spaces instead of tabs
-vim.opt.shiftwidth = 4              -- Shift 4 spaces when tab
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 2              -- Shift 4 spaces when tab
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
 vim.opt.smartindent = true
 
 --Decrease update time
