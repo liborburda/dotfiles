@@ -539,4 +539,8 @@ vim.api.nvim_set_keymap('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = 
 --nnoremap <Leader>g+  :Git stash push<CR>
 --nnoremap <Leader>g-  :Git stash pop<CR>
 
+-- Custom commands
+-- Delete all buffers except the active one
+vim.cmd [[ command BufOnly silent! execute "%bd|e#|bd#" ]]
+
 -- vim: ts=2 sts=2 sw=2 et
