@@ -57,8 +57,8 @@ require('packer').startup(function(use)
   --use { 'neoclide/coc.nvim', branch = 'release' }
 
   -- Nvim-tree
-  --use 'kyazdani42/nvim-web-devicons'
-  use { 'kyazdani42/nvim-tree.lua' }
+  -- use { 'nvim-tree/nvim-web-devicons' }
+  use { 'nvim-tree/nvim-tree.lua' }
 
   -- Terraform
   use { 'hashivim/vim-terraform' }
@@ -166,7 +166,6 @@ vim.cmd [[colorscheme catppuccin]]
 
 -- Set completeopt to have a better completion experience
 -- vim.o.completeopt = 'menuone,noselect' -- For Coc.nvim
-vim.o.completeopt = 'menuone,noselect' -- For nvim-cmp
 
 -- Don't auto commenting new lines
 vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
@@ -288,7 +287,7 @@ require('telescope').setup {
 }
 
 -- Enable telescope fzf native
-require('telescope').load_extension 'fzf'
+require('telescope').load_extension('fzf')
 
 --Add leader shortcuts
 vim.api.nvim_set_keymap('n', '<leader>fb', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], { noremap = true, silent = true })
@@ -439,13 +438,18 @@ end
 -- local luasnip = require 'luasnip'
 --
 -- nvim-cmp setup
-local cmp = require 'cmp'
+local types = require('cmp.types') -- Required by gopls to make completeopt work correctly
+local cmp = require('cmp')
 cmp.setup({
   -- snippet = {
   --   expand = function(args)
   --     luasnip.lsp_expand(args.body)
   --   end,
   -- },
+  confirmation = {
+    completeopt = 'menu,menuone,noselect'
+  },
+  preselect = types.cmp.PreselectMode.None,
   mapping = cmp.mapping.preset.insert({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-p>'] = cmp.mapping.select_prev_item(),
