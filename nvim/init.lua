@@ -57,7 +57,7 @@ require('packer').startup(function(use)
   --use { 'neoclide/coc.nvim', branch = 'release' }
 
   -- Nvim-tree
-  -- use { 'nvim-tree/nvim-web-devicons' }
+  use { 'nvim-tree/nvim-web-devicons' }
   use { 'nvim-tree/nvim-tree.lua' }
 
   -- Terraform
