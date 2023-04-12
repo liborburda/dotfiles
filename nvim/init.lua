@@ -225,7 +225,11 @@ require('nvim-tree').setup {
       },
     },
   },
+  -- update_focused_file = {
+  --   enable = true,
+  -- }
 }
+
 vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>NvimTreeToggle<CR>]], { noremap = true, silent = true })
 
 --Map blankline
@@ -299,6 +303,7 @@ vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>lua require('telescope.builtin
 vim.api.nvim_set_keymap('n', '<leader>fg', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader><space>', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>dd', [[<cmd>Telescope diagnostics<CR>]], { noremap = true, silent = true })
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
@@ -425,6 +430,16 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+require('lspconfig.ui.windows').default_options.border = 'rounded'
+
+vim.diagnostic.config({
+   -- Disable virtual_text
+   virtual_text = false,
+   float = {
+     border = 'rounded'
+   }
+})
+
 -- Enable the following language servers
 local servers = { 'clangd', 'pylsp', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
 for _, lsp in ipairs(servers) do
@@ -433,6 +448,8 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- -- luasnip setup
 -- local luasnip = require 'luasnip'
