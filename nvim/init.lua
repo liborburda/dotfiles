@@ -1,72 +1,71 @@
--- Install packer
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-vim.cmd [[
-  augroup Packer
-    autocmd!
-    autocmd BufWritePost init.lua PackerCompile
-  augroup end
-]]
-
-require('packer').startup(function(use)
-  use { 'wbthomason/packer.nvim' } -- Package manager
-  use { 'tpope/vim-fugitive' } -- Git commands in nvim
+require("lazy").setup({
+  'wbthomason/packer.nvim', -- Package manager
+  'tpope/vim-fugitive', -- Git commands in nvim
   --use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   --use 'ludovicchabant/vim-gutentags' -- Automatic tags management
 
   -- UI to select things (files, grep results, open buffers...)
-  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  { 'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope-fzf-native.nvim', cmd = 'Make' },
 
   -- Lualine
-  use { 'nvim-lualine/lualine.nvim' } -- Fancier statusline
+  'nvim-lualine/lualine.nvim',  -- Fancier statusline
 
   -- Add indentation guides even on blank lines
-  use { 'lukas-reineke/indent-blankline.nvim' }
+  'lukas-reineke/indent-blankline.nvim',
 
   -- Add git related info in the signs columns and popups
-  -- use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  -- 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
 
   -- Treesitter
   -- Highlight, edit, and navigate code using a fast incremental parsing library
-  use { 'nvim-treesitter/nvim-treesitter' }
+  'nvim-treesitter/nvim-treesitter',
   -- Additional textobjects for treesitter
-  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  'nvim-treesitter/nvim-treesitter-textobjects',
 
   -- Mason
-  -- use { 'williamboman/mason.nvim' }
-  -- use { 'williamboman/mason-lspconfig.nvim' }
-  -- use { 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
-  -- use { 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
+  -- 'williamboman/mason.nvim'
+  -- 'williamboman/mason-lspconfig.nvim'
+  -- 'neovim/nvim-lspconfig' } -- Collection of configurations for built-in LSP client
+  -- 'jose-elias-alvarez/null-ls.nvim', requires = { "nvim-lua/plenary.nvim" } } -- Support for linters and formatters
 
   -- LSP
-  -- use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
-  -- use { 'hrsh7th/cmp-buffer' }
-  -- use { 'hrsh7th/cmp-path' }
-  -- use { 'hrsh7th/cmp-cmdline' }
-  -- use { 'hrsh7th/cmp-nvim-lsp' }
-  -- use { 'hrsh7th/cmp-nvim-lsp-signature-help' }
-  -- use { 'saadparwaiz1/cmp_luasnip' }
-  -- use { 'L3MON4D3/LuaSnip' } -- Snippets plugin
+  -- 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
+  -- 'hrsh7th/cmp-buffer'
+  -- 'hrsh7th/cmp-path'
+  -- 'hrsh7th/cmp-cmdline'
+  -- 'hrsh7th/cmp-nvim-lsp'
+  -- 'hrsh7th/cmp-nvim-lsp-signature-help'
+  -- 'saadparwaiz1/cmp_luasnip'
+  -- 'L3MON4D3/LuaSnip' } -- Snippets plugin
 
   -- Coc.nvim
-  use { 'neoclide/coc.nvim', branch = 'release' }
+  { 'neoclide/coc.nvim', branch = 'release' },
 
   -- Nvim-tree
-  use { 'nvim-tree/nvim-web-devicons' }
-  use { 'nvim-tree/nvim-tree.lua' }
+  'nvim-tree/nvim-web-devicons',
+  'nvim-tree/nvim-tree.lua',
 
   -- Terraform
-  use { 'hashivim/vim-terraform' }
+  'hashivim/vim-terraform',
 
-  use { 'catppuccin/nvim' }
+  'catppuccin/nvim',
 
-  use { 'ntpeters/vim-better-whitespace' }
-end)
+  'ntpeters/vim-better-whitespace',
+})
 
 --Set highlight on search
 vim.o.hlsearch = true
