@@ -68,7 +68,7 @@ ZSH_THEME="gentoo"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# export FZF_BASE=/usr/local/bin/fzf
+export FZF_BASE=/usr/local/bin/fzf
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
