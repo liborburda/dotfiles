@@ -12,14 +12,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  'wbthomason/packer.nvim', -- Package manager
+  -- 'wbthomason/packer.nvim', -- Package manager
   'tpope/vim-fugitive', -- Git commands in nvim
   --use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   --use 'ludovicchabant/vim-gutentags' -- Automatic tags management
 
   -- UI to select things (files, grep results, open buffers...)
   { 'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
-  { 'nvim-telescope/telescope-fzf-native.nvim', cmd = 'Make' },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   -- Lualine
   'nvim-lualine/lualine.nvim',  -- Fancier statusline
@@ -117,8 +117,21 @@ vim.opt.laststatus = 3
 --vim.o.termguicolors = true
 --vim.g.vscode_style = "dark"
 --vim.cmd [[colorscheme vscode]]
-vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-require("catppuccin").setup()
+require("catppuccin").setup({
+    flavour = "mocha",
+
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = false,
+        mini = {
+            enabled = true,
+            indentscope_color = "",
+        },
+    }
+})
 vim.cmd [[colorscheme catppuccin]]
 
 -- Coc
