@@ -229,7 +229,7 @@ require('nvim-tree').setup {
     enable = false,
   },
   view = {
-    width = 40,
+    width = 30,
     signcolumn = "no",
   },
   renderer = {
