@@ -48,9 +48,11 @@ require("lazy").setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/cmp-nvim-lsp',
-  'hrsh7th/cmp-nvim-lsp-signature-help',
+  -- 'hrsh7th/cmp-nvim-lsp-signature-help',
   -- 'saadparwaiz1/cmp_luasnip'
   -- 'L3MON4D3/LuaSnip' } -- Snippets plugin
+
+  "ray-x/lsp_signature.nvim",
 
   -- Coc.nvim
   -- { 'neoclide/coc.nvim', branch = 'release' },
@@ -471,6 +473,11 @@ require("mason-lspconfig").setup {
   ensure_installed = {"clangd", "pyright", "terraformls", "bashls", "gopls", "ansiblels" },
 }
 
+-- lsp_signature
+require "lsp_signature".setup {
+  hint_enable = false
+}
+
 -- LSP settings
 local lspconfig = require('lspconfig')
 local on_attach = function(_, bufnr)
@@ -479,7 +486,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>',function() require('lsp_signature').toggle_float_win() end, opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
