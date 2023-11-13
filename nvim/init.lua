@@ -40,7 +40,7 @@ require("lazy").setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
   'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
-  'jose-elias-alvarez/null-ls.nvim', dependencies = { "nvim-lua/plenary.nvim" }, -- Support for linters and formatters
+  -- 'jose-elias-alvarez/null-ls.nvim', dependencies = { "nvim-lua/plenary.nvim" }, -- Support for linters and formatters
 
   -- LSP
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
@@ -375,48 +375,9 @@ require('nvim-treesitter.configs').setup {
   },
   incremental_selection = {
     enable = true,
-    keymaps = {
-      -- init_selection = 'gnn',
-      -- node_incremental = 'grn',
-      -- scope_incremental = 'grc',
-      -- node_decremental = 'grm',
-    },
   },
   indent = {
     enable = true,
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        [']m'] = '@function.outer',
-        [']]'] = '@class.outer',
-      },
-      goto_next_end = {
-        [']M'] = '@function.outer',
-        [']['] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[m'] = '@function.outer',
-        ['[['] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[M'] = '@function.outer',
-        ['[]'] = '@class.outer',
-      },
-    },
   },
 }
 
@@ -469,33 +430,32 @@ vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<
 
 
 -- Mason (replacement of nvim-lsp-installer)
-require("mason").setup()
-require("mason-lspconfig").setup {
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = require('lspconfig')
+
+mason.setup()
+
+mason_lspconfig.setup {
   ensure_installed = {"clangd", "pyright", "terraformls", "bashls", "gopls", "ansiblels" },
 }
 
--- lsp_signature
--- require "lsp_signature".setup {
---   hint_enable = false
--- }
-
 -- LSP settings
-local lspconfig = require('lspconfig')
 local on_attach = function(_, bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
   -- vim.api.nvim_command('command! Format execute 'lua vim.lsp.buf.formatting()' ]]
   vim.api.nvim_create_autocmd('CursorHold', { pattern = '*', command = 'lua vim.diagnostic.open_float(nil, {focus=false})' } )
 end
@@ -503,14 +463,31 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- Enable the following language servers
-local servers = { 'clangd', 'pyright', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+-- -- Enable the following language servers
+-- local servers = require("mason-lspconfig").get_installed_servers()
+-- -- local servers = { 'clangd', 'pyright', 'terraformls', 'bashls', 'gopls', 'ansiblels' }
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--   }
+-- end
+
+mason_lspconfig.setup_handlers({
+  function(server_name)
+    lspconfig[server_name].setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+  end
+})
+
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers['signature_help'], {
+        border = 'rounded',
+        close_events = {"CursorMoved", "BufHidden", "InsertCharPre"},
+    }
+)
 
 -- -- luasnip setup
 -- local luasnip = require 'luasnip'
