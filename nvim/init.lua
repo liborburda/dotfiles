@@ -135,60 +135,7 @@ require("catppuccin").setup({
         },
     }
 })
-vim.cmd [[colorscheme catppuccin]]
-
--- -- Coc
--- -- Autocomplete
--- function _G.check_back_space()
---     local col = vim.fn.col('.') - 1
---     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
--- end
--- 
--- local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
--- vim.keymap.set("i", "<C-n>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<C-n>" : coc#refresh()', opts)
--- -- vim.keymap.set("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
--- 
--- -- Use `[g` and `]g` to navigate diagnostics
--- -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
--- vim.keymap.set("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
--- vim.keymap.set("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
--- 
--- -- GoTo code navigation
--- vim.keymap.set("n", "gd", "<Plug>(coc-definition)", {silent = true})
--- vim.keymap.set("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
--- vim.keymap.set("n", "gi", "<Plug>(coc-implementation)", {silent = true})
--- vim.keymap.set("n", "gr", "<Plug>(coc-references)", {silent = true})
--- 
--- -- Use K to show documentation in preview window
--- function _G.show_docs()
---     local cw = vim.fn.expand('<cword>')
---     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
---         vim.api.nvim_command('h ' .. cw)
---     elseif vim.api.nvim_eval('coc#rpc#ready()') then
---         vim.fn.CocActionAsync('doHover')
---     else
---         vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
---     end
--- end
--- vim.keymap.set("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
--- 
--- -- Symbol renaming
--- vim.keymap.set("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
--- 
--- -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
--- vim.api.nvim_create_augroup("CocGroup", {})
--- vim.api.nvim_create_autocmd("CursorHold", {
---     group = "CocGroup",
---     command = "silent call CocActionAsync('highlight')",
---     desc = "Highlight symbol under cursor on CursorHold"
--- })
--- 
--- 
--- -- Set completeopt to have a better completion experience
--- vim.o.completeopt = 'menuone,noselect' -- For Coc.nvim
--- 
--- -- Don't auto commenting new lines
--- vim.cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
+vim.cmd.colorscheme('catppuccin')
 
 --Set statusbar
 require('lualine').setup {
@@ -349,6 +296,8 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
+
+    preview = false,
   },
 }
 
