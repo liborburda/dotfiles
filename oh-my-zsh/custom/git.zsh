@@ -31,4 +31,4 @@ alias gr='git rebase'
 alias grom='git rebase origin/master'
 alias gri='git rebase -i'
 
-
+alias gf='git fetch origin'
