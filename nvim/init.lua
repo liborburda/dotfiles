@@ -68,6 +68,9 @@ require("lazy").setup({
   'catppuccin/nvim',
 
   'ntpeters/vim-better-whitespace',
+
+  -- GitHub Copilot
+  'github/copilot.vim'
 })
 
 --Set highlight on search
