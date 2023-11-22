@@ -182,7 +182,7 @@ require('nvim-tree').setup {
     enable = false,
   },
   view = {
-    width = 30,
+    width = 60,
     signcolumn = "no",
   },
   renderer = {
@@ -243,6 +243,7 @@ vim.api.nvim_set_keymap('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = 
 --nnoremap <Leader>g-  :Git stash pop<CR>
 
 vim.api.nvim_set_keymap('n', '<F2>', [[<cmd>NvimTreeToggle<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>t', [[<cmd>NvimTreeFindFile<CR>]], { noremap = true, silent = true })
 
 --Map blankline
 vim.g.indent_blankline_char = '┊'
