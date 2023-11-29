@@ -40,7 +40,9 @@ require("lazy").setup({
   'williamboman/mason.nvim',
   'williamboman/mason-lspconfig.nvim',
   'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
-  -- 'jose-elias-alvarez/null-ls.nvim', dependencies = { "nvim-lua/plenary.nvim" }, -- Support for linters and formatters
+  { 'nvimtools/none-ls.nvim', dependencies = { "nvim-lua/plenary.nvim" } }, -- Support for linters and formatters
+  { 'jay-babu/mason-null-ls.nvim', dependencies = {'williamboman/mason.nvim', 'nvimtools/none-ls.nvim'} },
+  -- { 'stevearc/conform.nvim', opts = {}, },
 
   -- LSP
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
@@ -55,15 +57,9 @@ require("lazy").setup({
   -- Do not use; The LSP window overlap with nvim-cmp window
   -- "ray-x/lsp_signature.nvim",
 
-  -- Coc.nvim
-  -- { 'neoclide/coc.nvim', branch = 'release' },
-
   -- Nvim-tree
   'nvim-tree/nvim-web-devicons',
   'nvim-tree/nvim-tree.lua',
-
-  -- Terraform
-  'hashivim/vim-terraform',
 
   'catppuccin/nvim',
 
@@ -120,9 +116,6 @@ vim.opt.scrolloff = 5
 vim.opt.laststatus = 3
 
 --Set colorscheme
---vim.o.termguicolors = true
---vim.g.vscode_style = "dark"
---vim.cmd [[colorscheme vscode]]
 require("catppuccin").setup({
     flavour = "mocha",
 
@@ -168,13 +161,9 @@ vim.g.maplocalleader = ' '
 vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
--- Highlight on yank
-vim.cmd [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]]
+-- Temporary workaround for https://github.com/neovim/neovim/issues/23184
+-- Remove after 0.9.5 is released
+vim.cmd [[ au BufRead,BufNewFile *.tfvars set filetype=terraform ]]
 
 -- Nvim-tree
 require('nvim-tree').setup {
@@ -287,10 +276,6 @@ vim.g.indent_blankline_show_trailing_blankline_indent = false
 --   end,
 -- }
 
--- TerraformFmt
-vim.g.hcl_align = 1
-vim.g.terraform_fmt_on_save = 1
-
 -- Telescope
 require('telescope').setup {
   defaults = {
@@ -350,37 +335,59 @@ vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { 
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', { noremap = true, silent = true })
 
--- -- null-ls
--- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
--- require("null-ls").setup({
---   sources = {
---     require("null-ls").builtins.formatting.black
+-- null-ls
+require("mason-null-ls").setup({
+    ensure_installed = { 'goimports', 'black' }
+})
+
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.terraform_fmt,
+    null_ls.builtins.formatting.gofmt,
+    null_ls.builtins.formatting.goimports,
+    null_ls.builtins.formatting.black,
+  },
+
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+          vim.lsp.buf.format({ async = false })
+        end,
+      })
+    end
+  end,
+})
+
+-- Conform
+-- require("conform").setup({
+--   formatters_by_ft = {
+--     python = { "black" },
+-- 
+--     -- Terraform
+--     terraform = { "terraform_fmt" },
+--     tf = { "terraform_fmt" },
+--     ["terraform-vars"] = { "terraform_fmt" },
+-- 
+--     -- Golang
+--     go = { "goimports", "gofmt" },
 --   },
---   -- you can reuse a shared lspconfig on_attach callback here
---   on_attach = function(client, bufnr)
---     if client.supports_method("textDocument/formatting") then
---       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
---       vim.api.nvim_create_autocmd("BufWritePre", {
---         group = augroup,
---         buffer = bufnr,
---         callback = function()
---           -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
---           vim.lsp.buf.format()
---         end,
---       })
---     end
---   end,
 -- })
 -- 
--- local callback = function()
---     vim.lsp.buf.format({
---         bufnr = bufnr,
---         filter = function(client)
---             return client.name == "null-ls"
---         end
---     })
--- end,
-
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*",
+--   callback = function(args)
+--     require("conform").format({ bufnr = args.buf })
+--   end,
+-- })
 
 -- Mason (replacement of nvim-lsp-installer)
 local mason = require("mason")
@@ -390,7 +397,14 @@ local lspconfig = require('lspconfig')
 mason.setup()
 
 mason_lspconfig.setup {
-  ensure_installed = {"clangd", "pyright", "terraformls", "bashls", "gopls", "ansiblels" },
+  ensure_installed = {
+    "clangd",
+    "pyright",
+    -- "terraformls",
+    "bashls",
+    "gopls",
+    "ansiblels",
+  }
 }
 
 -- LSP settings
