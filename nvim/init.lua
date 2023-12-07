@@ -65,6 +65,8 @@ require("lazy").setup({
 
   'ntpeters/vim-better-whitespace',
 
+  'nathom/filetype.nvim',
+
   -- GitHub Copilot
   'github/copilot.vim'
 })
@@ -132,6 +134,18 @@ require("catppuccin").setup({
     }
 })
 vim.cmd.colorscheme('catppuccin')
+
+
+-- filetype.nvim
+require("filetype").setup {
+  overrides = {
+    extensions = {
+      tf = "terraform",
+      tfvars = "terraform",
+      tfstate = "json",
+    },
+  },
+}
 
 --Set statusbar
 require('lualine').setup {
