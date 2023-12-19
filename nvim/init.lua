@@ -117,6 +117,9 @@ vim.opt.scrolloff = 5
 --Use global status line
 vim.opt.laststatus = 3
 
+-- Disable swapfile
+vim.opt.swapfile = false
+
 --Set colorscheme
 require("catppuccin").setup({
     flavour = "mocha",
