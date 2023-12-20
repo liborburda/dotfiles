@@ -89,7 +89,7 @@ vim.o.mouse = ''
 
 --Enable break indent
 vim.o.breakindent = true
-vim.wo.wrap = false
+vim.wo.wrap = true
 
 --Save undo history
 vim.opt.undofile = true
