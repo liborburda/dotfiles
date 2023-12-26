@@ -76,7 +76,7 @@ require("lazy").setup({
   'nathom/filetype.nvim',
 
   -- GitHub Copilot
-  'github/copilot.vim'
+  -- 'github/copilot.vim'
 })
 
 --Set highlight on search
@@ -242,6 +242,20 @@ vim.keymap.set('n', '<leader>P', '"+P', { noremap = true, silent = true })
 
 -- terminal
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = true })
+
+-- Close all floating windows
+vim.keymap.set('n', '<esc>',
+  function ()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local config = vim.api.nvim_win_get_config(win)
+      if config.relative ~= "" then
+        vim.api.nvim_win_close(win, false)
+      end
+    end
+  end,
+  { noremap = true, silent = true }
+)
+
 
 -- Fugitive
 --nnoremap <leader>gs  :G<CR>
@@ -434,9 +448,6 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', function () vim.lsp.buf.rename() end, opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', function () vim.lsp.buf.references() end, opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', function () vim.lsp.buf.code_action() end, opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
-  -- vim.api.nvim_command('command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-  vim.api.nvim_create_autocmd('CursorHold', { pattern = '*', command = 'lua vim.diagnostic.open_float(nil, {focus=false})' } )
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
