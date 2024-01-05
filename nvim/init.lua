@@ -424,7 +424,7 @@ mason_lspconfig.setup {
   ensure_installed = {
     "clangd",
     "pyright",
-    -- "terraformls",
+    "terraformls",
     "bashls",
     "gopls",
     "ansiblels",
@@ -488,7 +488,7 @@ cmp.setup({
     ['<c-p>'] = cmp.mapping.select_prev_item(),
     ['<c-d>'] = cmp.mapping.scroll_docs(-4),
     ['<c-f>'] = cmp.mapping.scroll_docs(4),
-    ['<esc>'] = cmp.mapping.abort(),
+    --['<esc>'] = cmp.mapping.abort(),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
