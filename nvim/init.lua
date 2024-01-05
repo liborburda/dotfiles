@@ -294,29 +294,26 @@ require('gitsigns').setup {
     changedelete = { text = '~' },
   },
   on_attach = function(bufnr)
-    local function map(mode, lhs, rhs, opts)
-        opts = vim.tbl_extend('force', {noremap = true, silent = true}, opts or {})
-        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-    end
+    opts = { buffer = bufnr, noremap = true, silent = true }
 
     -- Navigation
-    -- map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    -- map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+    -- vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    -- vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
 
     -- Actions
-    map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-    map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-    -- map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-    map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-    -- map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-    map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-    -- map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
-    -- map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-    -- map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-    -- map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-    -- map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+    vim.keymap.set('n', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
+    vim.keymap.set('v', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
+    vim.keymap.set('n', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
+    vim.keymap.set('v', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
+    -- vim.keymap.set('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+    vim.keymap.set('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>', opts)
+    -- vim.keymap.set('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+    vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>', opts)
+    -- vim.keymap.set('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+    -- vim.keymap.set('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+    -- vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+    -- vim.keymap.set('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+    -- vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
   end,
 }
 
@@ -382,7 +379,7 @@ vim.keymap.set('n', '<leader>e', function () vim.diagnostic.open_float() end, { 
 
 -- null-ls
 require("mason-null-ls").setup({
-    ensure_installed = { 'goimports', 'black' }
+    ensure_installed = { 'goimports', 'black', 'terraformls' }
 })
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -434,20 +431,20 @@ mason_lspconfig.setup {
 
 -- LSP settings
 local on_attach = function(_, bufnr)
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', function () vim.lsp.buf.declaration() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', function () vim.lsp.buf.definition() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', function () vim.lsp.buf.hover() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', function () vim.lsp.buf.implementation() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-s>', function () vim.lsp.buf.signature_help() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<c-s>', function () vim.lsp.buf.signature_help() end, opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', function () vim.lsp.buf.add_workspace_folder() end, opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr', function () vim.lsp.buf.remove_workspace_folder() end, opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl', function () print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', function () vim.lsp.buf.type_definition() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', function () vim.lsp.buf.rename() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', function () vim.lsp.buf.references() end, opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', function () vim.lsp.buf.code_action() end, opts)
+  local opts = { buffer = bufnr, noremap = true, silent = true }
+  vim.keymap.set('n', 'gD', function () vim.lsp.buf.declaration() end, opts)
+  vim.keymap.set('n', 'gd', function () vim.lsp.buf.definition() end, opts)
+  vim.keymap.set('n', 'K', function () vim.lsp.buf.hover() end, opts)
+  vim.keymap.set('n', 'gi', function () vim.lsp.buf.implementation() end, opts)
+  vim.keymap.set('i', '<c-s>', function () vim.lsp.buf.signature_help() end, opts)
+  vim.keymap.set('n', '<c-s>', function () vim.lsp.buf.signature_help() end, opts)
+  -- vim.keymap.set('n', '<leader>wa', function () vim.lsp.buf.add_workspace_folder() end, opts)
+  -- vim.keymap.set('n', '<leader>wr', function () vim.lsp.buf.remove_workspace_folder() end, opts)
+  -- vim.keymap.set('n', '<leader>wl', function () print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+  vim.keymap.set('n', '<leader>D', function () vim.lsp.buf.type_definition() end, opts)
+  vim.keymap.set('n', '<leader>rn', function () vim.lsp.buf.rename() end, opts)
+  vim.keymap.set('n', 'gr', function () vim.lsp.buf.references() end, opts)
+  vim.keymap.set('n', '<leader>ca', function () vim.lsp.buf.code_action() end, opts)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
