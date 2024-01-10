@@ -128,6 +128,9 @@ vim.opt.laststatus = 3
 -- Disable swapfile
 vim.opt.swapfile = false
 
+-- Set maximum completion menu height
+vim.o.pumheight = 15
+
 --Set colorscheme
 require("catppuccin").setup({
     flavour = "mocha",
