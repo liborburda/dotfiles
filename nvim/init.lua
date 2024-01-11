@@ -97,7 +97,7 @@ vim.o.mouse = ''
 
 --Enable break indent
 vim.o.breakindent = true
-vim.wo.wrap = true
+vim.wo.wrap = false
 
 --Save undo history
 vim.opt.undofile = true
@@ -120,7 +120,7 @@ vim.wo.signcolumn = 'yes'
 vim.opt.hidden = true
 
 --Keep last 5 lines visible at the end of buffer
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 999
 
 --Use global status line
 vim.opt.laststatus = 3
