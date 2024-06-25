@@ -17,6 +17,8 @@ require("lazy").setup({
   --use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   --use 'ludovicchabant/vim-gutentags' -- Automatic tags management
 
+  'tpope/vim-eunuch', -- Vim sugar for UNIX shell commands
+
   -- UI to select things (files, grep results, open buffers...)
   { 'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
@@ -75,7 +77,7 @@ require("lazy").setup({
   'nathom/filetype.nvim',
 
   -- GitHub Copilot
-  -- 'github/copilot.vim'
+  'github/copilot.vim'
 })
 
 --Set highlight on search
@@ -89,7 +91,7 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "80"
 
 --Set cursor shape to block; no blinking
-vim.cmd [[set guicursor=a:blinkon0]]
+vim.cmd [[set guicursor=a:blinkon0,i:ver25-iCursor]]
 
 --Enable mouse mode
 vim.o.mouse = ''
