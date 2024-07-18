@@ -56,10 +56,15 @@ require("lazy").setup({
   -- LSP
   'hrsh7th/nvim-cmp', -- Autocompletion plugin
   'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-emoji',
   'hrsh7th/cmp-path',
+  'hrsh7th/cmp-calc',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-nvim-lsp-signature-help',
+  'hrsh7th/cmp-nvim-lsp-document-symbol',
+  'SergioRibera/cmp-dotenv',
+
   -- 'saadparwaiz1/cmp_luasnip'
   -- 'L3MON4D3/LuaSnip' } -- Snippets plugin
 
@@ -481,7 +486,6 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
     }
 )
 
-
 -- nvim-cmp setup
 local types = require('cmp.types') -- Required by gopls to make completeopt work correctly
 local cmp = require('cmp')
@@ -512,6 +516,10 @@ cmp.setup({
     },
     { name = 'path' },
     { name = 'nvim_lsp_signature_help' },
+    { name = 'emoji', option = { insert = true } },
+    { name = 'buffer' },
+    { name = 'calc' },
+    { name = 'dotenv' },
   }),
 })
 
