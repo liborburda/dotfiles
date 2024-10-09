@@ -137,7 +137,7 @@ vim.o.pumheight = 15
 
 --Set colorscheme
 require("catppuccin").setup({
-    flavour = "mocha",
+    flavour = "macchiato",
 
     integrations = {
         cmp = true,
