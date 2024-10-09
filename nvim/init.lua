@@ -21,7 +21,7 @@ require("lazy").setup({
 
   -- UI to select things (files, grep results, open buffers...)
   { 'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+  -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   -- Lualine
   'nvim-lualine/lualine.nvim',  -- Fancier statusline
@@ -137,7 +137,7 @@ vim.o.pumheight = 15
 
 --Set colorscheme
 require("catppuccin").setup({
-    flavour = "macchiato",
+    flavour = "mocha",
 
     integrations = {
         cmp = true,
@@ -332,7 +332,7 @@ require('telescope').setup {
 }
 
 -- Enable telescope fzf native
-require('telescope').load_extension('fzf')
+-- require('telescope').load_extension('fzf')
 
 --Add leader shortcuts
 vim.keymap.set('n', '<leader>fb', function () require('telescope.builtin').buffers() end, { noremap = true, silent = true })

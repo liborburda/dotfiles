@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 zstyle ':completion:*' rehash true
 
@@ -75,13 +75,16 @@ export FZF_BASE=/usr/local/bin/fzf
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(fzf-tab)
+plugins=(fzf-tab kubectl gnu-utils)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+export KUBE_CONFIG_PATH=$HOME/.kube/config
+export AWS_DEFAULT_REGION=eu-west-1
+export AWS_PROFILE=master
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -104,3 +107,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
