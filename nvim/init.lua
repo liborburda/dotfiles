@@ -30,7 +30,7 @@ require("lazy").setup({
   'lukas-reineke/indent-blankline.nvim',
 
   -- Add git related info in the signs columns and popups
-  'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
+  -- 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' },
 
   -- Treesitter
   -- Highlight, edit, and navigate code using a fast incremental parsing library
@@ -94,7 +94,7 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "80"
 
 --Set cursor shape to block; no blinking
-vim.cmd [[set guicursor=a:blinkon0,i:ver25-iCursor]]
+vim.opt.guicursor = "a:blinkon0,i-ci-ve:ver25-iCursor"
 
 --Enable mouse mode
 vim.o.mouse = ''
@@ -292,37 +292,37 @@ vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
 vim.g.indent_blankline_show_trailing_blankline_indent = false
 
 -- Gitsigns
-require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
-  on_attach = function(bufnr)
-    opts = { buffer = bufnr, noremap = true, silent = true }
-
-    -- Navigation
-    -- vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    -- vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-
-    -- Actions
-    vim.keymap.set('n', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
-    vim.keymap.set('v', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
-    vim.keymap.set('n', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
-    vim.keymap.set('v', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
-    -- vim.keymap.set('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-    vim.keymap.set('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>', opts)
-    -- vim.keymap.set('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-    vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>', opts)
-    -- vim.keymap.set('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
-    -- vim.keymap.set('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-    -- vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-    -- vim.keymap.set('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-    -- vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
-  end,
-}
+--require('gitsigns').setup {
+--  signs = {
+--    add = { text = '+' },
+--    change = { text = '~' },
+--    delete = { text = '_' },
+--    topdelete = { text = '‾' },
+--    changedelete = { text = '~' },
+--  },
+--  on_attach = function(bufnr)
+--    opts = { buffer = bufnr, noremap = true, silent = true }
+--
+--    -- Navigation
+--    -- vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+--    -- vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+--
+--    -- Actions
+--    vim.keymap.set('n', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
+--    vim.keymap.set('v', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts)
+--    vim.keymap.set('n', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
+--    vim.keymap.set('v', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts)
+--    -- vim.keymap.set('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+--    vim.keymap.set('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>', opts)
+--    -- vim.keymap.set('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+--    vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>', opts)
+--    -- vim.keymap.set('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+--    -- vim.keymap.set('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+--    -- vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+--    -- vim.keymap.set('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+--    -- vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
+--  end,
+--}
 
 -- Telescope
 require('telescope').setup {
