@@ -195,6 +195,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = t
 
 -- Nvim-tree
 require('nvim-tree').setup {
+  hijack_cursor = true,
   git = {
     enable = false,
   },

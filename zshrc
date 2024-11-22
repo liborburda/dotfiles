@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=${KREW_ROOT:-$HOME/.krew}/bin:/opt/homebrew/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/go/bin:$PATH
 
 zstyle ':completion:*' rehash true
 
