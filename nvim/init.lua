@@ -34,7 +34,7 @@ require("lazy").setup({
 
   -- Treesitter
   -- Highlight, edit, and navigate code using a fast incremental parsing library
-  'nvim-treesitter/nvim-treesitter',
+  { 'nvim-treesitter/nvim-treesitter', tag = "v0.9.2" },
   -- Additional textobjects for treesitter
   'nvim-treesitter/nvim-treesitter-textobjects',
 
