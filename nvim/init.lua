@@ -26,7 +26,7 @@ require("lazy").setup({
   -- Lualine
   'nvim-lualine/lualine.nvim',  -- Fancier statusline
 
-  -- Add indentation guides even on blank lines
+  -- Add indentation guides
   'lukas-reineke/indent-blankline.nvim',
 
   -- Add git related info in the signs columns and popups
@@ -286,11 +286,38 @@ vim.keymap.set('n', '<esc>',
 --nnoremap <leader>g+  :Git stash push<CR>
 --nnoremap <leader>g-  :Git stash pop<CR>
 
---Map blankline
-vim.g.indent_blankline_char = '┊'
-vim.g.indent_blankline_filetype_exclude = { 'help', 'packer' }
-vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
-vim.g.indent_blankline_show_trailing_blankline_indent = false
+
+local highlight = {
+    "RainbowRed",
+    "RainbowYellow",
+    "RainbowBlue",
+    "RainbowOrange",
+    "RainbowGreen",
+    "RainbowViolet",
+    "RainbowCyan",
+}
+
+local hooks = require "ibl.hooks"
+-- create the highlight groups in the highlight setup hook, so they are reset
+-- every time the colorscheme changes
+hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+    vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+    vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+    vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+    vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+    vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+    vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+    vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+end)
+
+require("ibl").setup {
+  indent = {
+    highlight = highlight
+  },
+  scope = {
+    enabled = false,
+  }
+}
 
 -- Gitsigns
 --require('gitsigns').setup {
