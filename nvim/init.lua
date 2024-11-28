@@ -34,7 +34,7 @@ require("lazy").setup({
 
   -- Treesitter
   -- Highlight, edit, and navigate code using a fast incremental parsing library
-  { 'nvim-treesitter/nvim-treesitter', tag = "v0.9.2" },
+  { 'nvim-treesitter/nvim-treesitter'},
   -- Additional textobjects for treesitter
   'nvim-treesitter/nvim-treesitter-textobjects',
 
@@ -162,6 +162,17 @@ vim.filetype.add({
     tf = "terraform",
     tfvars = "terraform",
     tfstate = "json",
+  },
+})
+
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
   },
 })
 
