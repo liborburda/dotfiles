@@ -94,7 +94,7 @@ vim.opt.cursorline = true
 vim.opt.colorcolumn = "80"
 
 --Set cursor shape to block; no blinking
-vim.opt.guicursor = "a:blinkon0,i-ci-ve:ver25-iCursor"
+vim.opt.guicursor = "a:blinkon0"
 
 --Enable mouse mode
 vim.o.mouse = ''
@@ -367,6 +367,10 @@ require("ibl").setup {
 require('telescope').setup {
   defaults = {
     preview = false,
+    layout_config = {
+      prompt_position = 'top',
+    },
+    sorting_strategy = 'ascending',
   },
 }
 
@@ -374,7 +378,7 @@ require('telescope').setup {
 -- require('telescope').load_extension('fzf')
 
 --Add leader shortcuts
-vim.keymap.set('n', '<leader>fb', function () require('telescope.builtin').buffers() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader><Space>', function () require('telescope.builtin').buffers() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ff', function () require('telescope.builtin').find_files() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>sb', function () require('telescope.builtin').current_buffer_fuzzy_find() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>sh', function () require('telescope.builtin').help_tags() end, { noremap = true, silent = true })
@@ -382,7 +386,7 @@ vim.keymap.set('n', '<leader>ff', function () require('telescope.builtin').find_
 --vim.keymap.set('n', '<leader>sd', function () require('telescope.builtin').grep_string() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', function () require('telescope.builtin').live_grep() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>so', function () require('telescope.builtin').tags{ only_current_buffer = true } end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader><Space>', function () require('telescope.builtin').oldfiles() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>fo', function () require('telescope.builtin').oldfiles() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fd', function () require('telescope.builtin').diagnostics() end, { noremap = true, silent = true })
 
 
