@@ -378,7 +378,7 @@ require('telescope').setup {
 -- require('telescope').load_extension('fzf')
 
 --Add leader shortcuts
-vim.keymap.set('n', '<leader><Space>', function () require('telescope.builtin').buffers() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>fb', function () require('telescope.builtin').buffers() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ff', function () require('telescope.builtin').find_files() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>sb', function () require('telescope.builtin').current_buffer_fuzzy_find() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>sh', function () require('telescope.builtin').help_tags() end, { noremap = true, silent = true })
@@ -386,7 +386,7 @@ vim.keymap.set('n', '<leader>ff', function () require('telescope.builtin').find_
 --vim.keymap.set('n', '<leader>sd', function () require('telescope.builtin').grep_string() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fg', function () require('telescope.builtin').live_grep() end, { noremap = true, silent = true })
 --vim.keymap.set('n', '<leader>so', function () require('telescope.builtin').tags{ only_current_buffer = true } end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>fo', function () require('telescope.builtin').oldfiles() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader><Space>', function () require('telescope.builtin').oldfiles() end, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>fd', function () require('telescope.builtin').diagnostics() end, { noremap = true, silent = true })
 
 
@@ -441,7 +441,12 @@ vim.keymap.set('n', '<leader>e', function () vim.diagnostic.open_float() end, { 
 
 -- null-ls
 require("mason-null-ls").setup({
-    ensure_installed = { 'goimports', 'black', 'terraformls' }
+  ensure_installed = {
+    'goimports',
+    'black',
+    'terraformls',
+    'lua-language-server',
+  }
 })
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -452,7 +457,9 @@ null_ls.setup({
     null_ls.builtins.formatting.terraform_fmt,
     null_ls.builtins.formatting.gofmt,
     null_ls.builtins.formatting.goimports,
-    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.black.with({
+      extra_args = {"--line-length", "120"},
+    }),
   },
 
   on_attach = function(client, bufnr)
