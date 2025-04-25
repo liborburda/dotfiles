@@ -407,6 +407,9 @@ vim.keymap.set('n', 'S', function() require("flash").treesitter() end, {noremap 
 vim.keymap.set('x', 'S', function() require("flash").treesitter() end, {noremap = true, silent = true })
 vim.keymap.set('o', 'S', function() require("flash").treesitter() end, {noremap = true, silent = true })
 
+-- Copilot
+vim.cmd("Copilot disable")
+
 
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
