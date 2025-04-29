@@ -57,6 +57,8 @@ if [ -x "$(command -v eksctl)" ]; then
   source <(eksctl completion bash)
 fi
 
+alias gs='git status'
+
 alias ga='git add'
 alias gaa='git add --all'
 
@@ -85,4 +87,3 @@ alias gfo='git fetch origin'
 
 alias gr='git rebase'
 alias gri='git rebase -i'
-
