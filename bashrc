@@ -31,15 +31,15 @@ PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 # Base
 PS1='\[\033]0;\u@\h:\w\007\]'
 # User + hostname
-PS1+="\[\033[01;32m\]\u@\h "
+PS1+="\[\033[01;32m\]\u@\h"
 # PWD
-PS1+="\[\033[01;34m\]\w\[\033[m\] "
+PS1+=" \[\033[01;34m\]\w\[\033[m\]"
 # Git branch
-PS1+="\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
+PS1+="\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/')"
 # kubectl current-context
 #PS1+="\$( kubectl config current-context 2>/dev/null | awk '{ print \$0\" \" }' )"
 # Final dollar
-PS1+="\[\033[01;34m\]\$\[\033[00m\] "
+PS1+=" \[\033[01;34m\]\$\[\033[00m\] "
 
 mt() {
   mosh $1 -- tmux new -ADs 0
