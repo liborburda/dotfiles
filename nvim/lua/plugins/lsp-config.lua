@@ -17,21 +17,12 @@ return {
         end
       })
 
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers['signature_help'], {
-          border = 'rounded',
-          close_events = {"CursorMoved", "BufHidden", "InsertCharPre"},
-        }
-      )
-
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-      vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, {})
-      vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
-      vim.keymap.set('i', '<c-s>',      vim.lsp.buf.signature_help, {})
-      vim.keymap.set('n', '<c-s>',      vim.lsp.buf.signature_help, {})
+      vim.keymap.set("n", "<Leader>gd", vim.lsp.buf.definition, {})
+      vim.keymap.set('n', '<Leader>gi', vim.lsp.buf.implementation, {})
+      vim.keymap.set("n", "<Leader>gr", vim.lsp.buf.references, {})
+      vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, {})
     end,
   },
 }
