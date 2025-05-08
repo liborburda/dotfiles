@@ -79,6 +79,13 @@ require("lazy").setup({
 
   'ntpeters/vim-better-whitespace',
 
+  {
+    "danymat/neogen",
+    config = true,
+    -- Uncomment next line if you want to follow only stable versions
+    -- version = "*"
+  },
+
   -- GitHub Copilot
   'github/copilot.vim'
 })
@@ -362,6 +369,10 @@ require("ibl").setup {
 --    -- vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
 --  end,
 --}
+
+-- Neogen
+-- TODO: Find a good keymap for this
+-- vim.api.nvim_set_keymap("n", "<Leader>nf", ":lua require('neogen').generate()<CR>", {noremap = true, silent = true})
 
 -- Telescope
 require('telescope').setup {
