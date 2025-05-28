@@ -53,17 +53,15 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ['<CR>'] = cmp.mapping(function(fallback)
-              if cmp.visible() then
-                  if luasnip.expandable() then
-                      luasnip.expand()
-                  else
-                      cmp.confirm({
-                          select = true,
-                      })
-                  end
+            if cmp.visible() then
+              if luasnip.expandable() then
+                luasnip.expand()
               else
-                  fallback()
+                vim.api.nvim_input("<NL>")
               end
+            else
+              fallback()
+            end
           end),
 
           ["<Tab>"] = cmp.mapping(function(fallback)
@@ -81,6 +79,7 @@ return {
               fallback()
             end
           end, { "i", "s" }),
+
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-n>"] = cmp.mapping.select_next_item(),
