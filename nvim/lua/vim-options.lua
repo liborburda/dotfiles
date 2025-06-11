@@ -6,7 +6,6 @@ vim.opt.showmatch = true
 vim.wo.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
-vim.opt.colorcolumn = "80"
 
 --Set cursor shape to block; no blinking
 vim.opt.guicursor = "a:blinkon0"
