@@ -30,6 +30,7 @@ return {
           'black',
           'terraformls',
           'lua-language-server',
+          'yaml-language-server',
         }
       })
     end,
