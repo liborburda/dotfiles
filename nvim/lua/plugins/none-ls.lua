@@ -27,6 +27,7 @@ return {
       mason_null_ls.setup({
         ensure_installed = {
           'goimports',
+          'gofumpt',
           'black',
           'terraformls',
           'lua-language-server',
