@@ -32,6 +32,7 @@ return {
           'terraformls',
           'lua-language-server',
           'yaml-language-server',
+          'shellcheck',
         }
       })
     end,
